@@ -211,13 +211,17 @@
   <section id="draw">
     <div class="sec-head"><div class="kick">LUCKY DRAW</div><h2>喜從天降</h2><p>會後由通關名單依序抽出，結果即時公布於此</p></div>
     <div class="card stage">
-      <div class="roll" id="roll">🎁</div>
-      <div id="drawPrize" style="color:var(--brown);font-weight:bold;min-height:22px">按下方按鈕開始抽獎</div>
-      <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <button class="btn" id="drawBtn" onclick="startDraw()">🎲 開始抽獎</button>
-        <button class="btn sm" onclick="loadWinners()">重新整理結果</button>
+      <!-- 抽獎控制：僅主持人專屬網址可見 -->
+      <div id="adminDraw" style="display:none">
+        <div class="roll" id="roll">🎁</div>
+        <div id="drawPrize" style="color:var(--brown);font-weight:bold;min-height:22px">按下方按鈕開始抽獎</div>
+        <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn" id="drawBtn" onclick="startDraw()">🎲 開始抽獎</button>
+          <button class="btn sm" onclick="loadWinners()">重新整理結果</button>
+        </div>
+        <div id="eligibleInfo" class="drawn-at"></div>
       </div>
-      <div id="eligibleInfo" class="drawn-at"></div>
+      <div id="guestHint" class="drawn-at" style="font-size:14px">🍀 會後將於此即時公布中獎名單，敬請期待！</div>
       <div class="winners" id="winners"></div>
       <div class="drawn-at" id="drawnAt"></div>
     </div>
@@ -397,6 +401,13 @@ form.addEventListener('submit', async(e)=>{
   }catch(err){ ferr(err.message||'送出失敗，請稍後再試'); sbtn.disabled=false; sbtn.textContent='送出報名及點餐'; }
 });
 function ferr(t){fmsg.className='err';fmsg.textContent='⚠️ '+t;sbtn.disabled=false;sbtn.textContent='送出報名及點餐';}
+
+/* ---- 主持人專屬：帶 ?admin=密碼 才顯示抽獎控制 ---- */
+const ADMIN_TOKEN = 'feiyang2026';   // 主持人網址：/?admin=feiyang2026#draw （要改密碼改這裡）
+if(new URLSearchParams(location.search).get('admin') === ADMIN_TOKEN){
+  document.getElementById('adminDraw').style.display='block';
+  document.getElementById('guestHint').style.display='none';
+}
 
 loadWinners();
 </script>
