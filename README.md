@@ -1,6 +1,6 @@
 # 飛揚社 2026 父親節特別活動 — 報名 + 摸彩抽獎
 
-一套部署在 Vercel 的活動網站：**報名頁**收集與會者資料，寫入 **Filebase**（S3 相容物件儲存）當後端資料庫，並同步寄通知信給同工；**摸彩頁**直接從資料庫讀取報名名單進行抽獎。
+一套部署在 Vercel 的活動網站：**報名頁**收集與會者資料，寫入 **Firebase Firestore**（專案 `myproject-bf2d2`）當後端資料庫，並同步寄通知信給同工；**摸彩頁**直接從資料庫讀取報名名單進行抽獎。
 
 ## 頁面
 
@@ -13,17 +13,17 @@
 
 | 端點 | 方法 | 說明 |
 |------|------|------|
-| `/api/register` | POST | 寫入一筆報名（以 email 為 key，重複視為更新）到 Filebase，並寄通知信。 |
+| `/api/register` | POST | 寫入一筆報名（以 email 為文件 ID，重複視為更新）到 Firestore，並寄通知信。 |
 | `/api/registrations` | GET | 回傳摸彩名單（僅 姓名／身分／是否爸爸，不含 email）。 |
 
-資料以 JSON 物件存於 Filebase bucket，前綴 `registrations/`。
+資料存於 Firestore 集合 `registrations`（可用 `FIRESTORE_COLLECTION` 覆蓋），每位報名者一份文件。
 
 ## 環境變數（設在 Vercel，勿進 git）
 
 | 變數 | 用途 |
 |------|------|
-| `FILEBASE_KEY` / `FILEBASE_SECRET` | Filebase S3 存取金鑰 |
-| `FILEBASE_BUCKET` | bucket 名稱（預設 `myproject`） |
+| `FIREBASE_SERVICE_ACCOUNT` | Firebase 服務帳戶 JSON（整包單行） |
+| `FIRESTORE_COLLECTION` | （選填）集合名稱，預設 `registrations` |
 | `GMAIL_USER` / `GMAIL_APP_PASSWORD` | Gmail SMTP 寄信（需 Google 應用程式密碼） |
 | `NOTIFY_TO` | （選填）通知收件人，逗號分隔；不填用內建 4 位同工 |
 

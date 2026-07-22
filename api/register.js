@@ -1,5 +1,4 @@
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { getClient, BUCKET, keyForEmail } from "./_filebase.js";
+import { getDb, COLLECTION, docIdForEmail } from "./_firestore.js";
 import { sendRegistrationMail } from "./_notify.js";
 
 export default async function handler(req, res) {
@@ -28,15 +27,8 @@ export default async function handler(req, res) {
       createdAt: new Date().toISOString(),
     };
 
-    const client = getClient();
-    await client.send(
-      new PutObjectCommand({
-        Bucket: BUCKET,
-        Key: keyForEmail(email),
-        Body: JSON.stringify(record),
-        ContentType: "application/json",
-      })
-    );
+    const db = getDb();
+    await db.collection(COLLECTION).doc(docIdForEmail(email)).set(record, { merge: true });
 
     // 同步寄通知信給同工；寄信失敗不影響報名成功。
     let mailed = false;
