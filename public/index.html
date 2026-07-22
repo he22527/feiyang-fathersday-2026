@@ -90,6 +90,20 @@
   .rule .rc{color:var(--ink);font-size:13px;margin-top:4px}
   .qualify{margin-top:14px;background:var(--green-l);border-radius:13px;padding:13px 16px;color:var(--green-d);font-size:14px;line-height:1.8}
 
+  /* speaker */
+  .spk{display:flex;gap:16px;align-items:flex-start}
+  .spk .ava{flex:0 0 64px;width:64px;height:64px;border-radius:50%;
+       background:linear-gradient(135deg,var(--apri),var(--brown));color:#fff;
+       display:flex;align-items:center;justify-content:center;font-size:30px}
+  .spk .who b{color:var(--brown);font-size:17px}
+  .spk .who .role{color:var(--muted);font-size:13.5px;margin-top:3px;line-height:1.7}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .chips span{background:var(--green-l);color:var(--green-d);font-size:12.5px;font-weight:bold;padding:5px 11px;border-radius:999px}
+  .spk-body{margin-top:16px;color:var(--ink);font-size:14.5px;line-height:1.85}
+  .spk-body b{color:var(--brown)}
+  .spk-quote{margin-top:14px;background:linear-gradient(135deg,#fff8ef,#fdeeda);border-radius:13px;
+       padding:14px 16px;text-align:center;color:var(--brown);font-style:italic;font-size:14.5px}
+
   /* quiz */
   .quiz-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:center}
   @media(max-width:600px){.quiz-grid{grid-template-columns:1fr}}
@@ -155,6 +169,7 @@
   <div class="hero-bottom">
     <nav class="nav">
       <button onclick="openModal('flow')">活動流程</button>
+      <button onclick="openModal('speaker')">講員簡介</button>
       <button onclick="openModal('prizes')">摸彩獎項</button>
       <button onclick="openModal('quiz')">摸彩通關</button>
       <button onclick="openModal('draw')">喜從天降</button>
@@ -178,6 +193,31 @@
       <div class="item"><div class="t">12:58–13:00</div><div class="dot"></div><div><div class="n">祝福禱告</div><div class="d">視情況 QA</div></div></div>
       <div class="item"><div class="t">會後</div><div class="dot"></div><div><div class="n">喜從天降・驚喜摸彩</div><div class="d">實體 4 名・線上 1 名</div></div></div>
     </div>
+  </div>
+</div>
+
+<!-- 講員簡介 -->
+<div class="modal" id="modal-speaker" onclick="bd(event)">
+  <div class="mcard">
+    <button class="mx" onclick="closeAll()">✕</button>
+    <div class="sec-head"><div class="kick">SPEAKER</div><h2>講員簡介</h2><p>《沙灘上的雙重腳印》</p></div>
+    <div class="spk">
+      <div class="ava">🎤</div>
+      <div class="who">
+        <b>戴豐源博士（Frank）</b>
+        <div class="role">跨越台・日・美・中的職涯歷練，以父親、婚姻與信仰交織的生命故事，分享如何在爭競與妒嫉散去後，重新靠近家人。</div>
+      </div>
+    </div>
+    <div class="chips">
+      <span>前科技公司 CTO</span>
+      <span>Polaroid 拍立得高級工程師</span>
+      <span>東京大學 工學博士</span>
+    </div>
+    <div class="spk-body">
+      戴博士曾在多國科技產業任職、擔任技術長，一路從工程師走到高階主管；在專業成就之外，他更走過婚姻與親子關係的破口與修復。本次以講題 <b>《沙灘上的雙重腳印》</b>，訴說當職場的爭競與妒嫉散去，願夫妻與親子重新靠近的真實故事。<br><br>
+      本場並邀請師母 <b>萍萍</b> 一同「夫妻分享」，從兩人的視角，見證家庭與信仰的同行。
+    </div>
+    <div class="spk-quote">「耶和華必在你前面行，祂必與你同在；<br>祂必不撇下你，也不丟棄你。」— 申命記 31:8</div>
   </div>
 </div>
 
@@ -210,7 +250,7 @@
       <div class="qr-box">
         <img src="./assets/qr-quiz.png" alt="摸彩通關作答 QR Code">
         <div><a href="./quiz" target="_blank" rel="noopener">📱 手機作答連結</a></div>
-        <div class="cap">用手機掃描 QR Code，或點上方連結，<br>填姓名並答對 2 題即納入摸彩名單。<br><b style="color:var(--apri)">作答將於 8/7 11:30 開放</b></div>
+        <div class="cap">用手機掃描 QR Code，或點上方連結，<br>填姓名並答對 2 題即納入摸彩名單。<br><b id="quizOpenNote" style="color:var(--apri)"></b></div>
       </div>
     </div>
   </div>
@@ -312,6 +352,12 @@ function loadQuiz(){
     document.getElementById('qList').innerHTML=d.questions.map((q,i)=>
       `<div class="q"><div class="qn">Q${i+1}. ${q.title}</div><div class="qo">${q.options.map((o,j)=>`(${j+1}) ${o}`).join('　')}</div></div>`
     ).join('');
+    const note=document.getElementById('quizOpenNote');
+    if(d.isOpen){ note.textContent='✅ 作答進行中，歡迎立即掃碼作答'; }
+    else if(d.openAt){
+      const disp=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(d.openAt));
+      note.textContent='作答將於 '+disp+' 開放';
+    }
   }).catch(()=>{ quizLoaded=false; document.getElementById('qList').innerHTML='<div class="q"><div class="qn">題目載入失敗，請重開此視窗。</div></div>'; });
 }
 

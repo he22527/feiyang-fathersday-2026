@@ -114,8 +114,13 @@ fetch('/api/quiz').then(r=>r.json()).then(d=>{
 
 /* ---- 作答開放時間閘門 ---- */
 let gateTimer=null;
+function fmtTW(dt){
+  return new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',
+    day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(dt);
+}
 function setupGate(openAtStr){
-  const openAt=new Date(openAtStr||'2026-08-07T11:30:00+08:00').getTime();
+  const openDate=new Date(openAtStr||'2026-08-07T11:30:00+08:00');
+  const openAt=openDate.getTime(), disp=fmtTW(openDate);
   const gate=document.getElementById('gate'), submit=document.getElementById('submit');
   function tick(){
     const diff=openAt-Date.now();
@@ -129,7 +134,7 @@ function setupGate(openAtStr){
     gate.style.display='block';
     const s=Math.floor(diff/1000), d=Math.floor(s/86400), h=Math.floor(s%86400/3600),
           m=Math.floor(s%3600/60), sec=s%60, p=n=>String(n).padStart(2,'0');
-    gate.innerHTML='⏳ 作答將於 <b>2026/08/07 11:30</b> 開放'+
+    gate.innerHTML=`⏳ 作答將於 <b>${disp}</b> 開放`+
       `<div class="cd">${d>0?d+' 天 ':''}${p(h)}:${p(m)}:${p(sec)}</div>`;
   }
   tick();
