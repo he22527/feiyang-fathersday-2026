@@ -3,258 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>飛揚社 2026 父親節特別活動｜報名</title>
-<meta name="description" content="飛揚社 2026 父親節特別活動報名 — 8/7（五）華光廳，講員戴豐源博士《沙灘上的雙重腳印》，報名即參加摸彩。">
+<title>飛揚社 2026 父親節特別活動</title>
+<meta name="description" content="CECI 飛揚社 2026 父親節特別活動《沙灘上的雙重腳印》— 8/7（五）華光廳。立即報名及點餐，參加摸彩通關抽好禮。">
 <style>
   :root{
-    --bg:#fdf6ec; --card:#ffffff; --ink:#3a4e60; --brown:#5b4636;
-    --apri:#d98a4e; --blue:#4a6b86; --green:#6f8f6a; --line:#e7ddca;
-    --muted:#9b8d78; --shadow:0 6px 22px rgba(90,70,54,.12);
+    --green:#3a9e6e; --green-d:#2f7d57; --green-l:#e6f4ec;
+    --bg:#fbf6ec; --card:#ffffff; --ink:#3a4e60; --brown:#5b4636;
+    --apri:#d98a4e; --line:#e7ddca; --muted:#9b8d78;
+    --shadow:0 10px 30px rgba(70,90,70,.14); --radius:20px;
   }
   *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
   body{margin:0;font-family:"Microsoft JhengHei","微軟正黑體","PingFang TC",sans-serif;
-       background:linear-gradient(160deg,#fdf6ec,#f6ecdd);color:var(--ink);line-height:1.7}
-  a{color:var(--blue)}
-  .wrap{max-width:820px;margin:0 auto;padding:0 16px 64px}
+       background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
 
-  /* HERO */
-  .hero{text-align:center;padding:40px 16px 24px}
-  .hero .badge{display:inline-block;background:var(--apri);color:#fff;font-weight:bold;
-       font-size:13px;padding:5px 14px;border-radius:999px;letter-spacing:1px}
-  .hero h1{margin:14px 0 6px;font-size:30px;color:var(--brown);line-height:1.35}
-  .hero .theme{color:var(--apri);font-weight:bold;font-size:17px;margin-top:4px}
-  .hero .meta{color:var(--muted);font-size:15px;margin-top:12px}
-  .hero .meta b{color:var(--brown)}
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;text-align:center;padding:40px 18px 90px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-2;
+        background:url('./assets/hero-bg.png') center 62%/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;
+        background:linear-gradient(180deg,rgba(255,252,244,.28) 0%,rgba(255,252,244,0) 34%,rgba(251,246,236,.55) 100%)}
+  .datepill{display:inline-block;background:rgba(255,255,255,.72);backdrop-filter:blur(6px);
+        color:var(--brown);font-weight:bold;letter-spacing:2px;font-size:16px;
+        padding:9px 22px;border-radius:999px;box-shadow:0 4px 14px rgba(90,70,54,.12)}
+  .hero h1{margin:20px 0 6px;font-size:clamp(40px,9vw,78px);font-weight:900;color:#2f5d43;
+        letter-spacing:4px;text-shadow:0 2px 20px rgba(255,255,255,.85),0 1px 2px rgba(255,255,255,.9)}
+  .hero .sub{font-size:clamp(17px,3.4vw,24px);color:#4a6b52;font-style:italic;letter-spacing:3px;
+        text-shadow:0 1px 12px rgba(255,255,255,.9)}
+  .hero .theme{margin-top:6px;color:var(--brown);font-size:15px;letter-spacing:1px;
+        text-shadow:0 1px 10px rgba(255,255,255,.95)}
+  .cta{display:inline-flex;align-items:center;gap:8px;margin-top:26px;cursor:pointer;
+        background:var(--green);color:#fff;font-size:19px;font-weight:bold;border:none;
+        padding:16px 34px;border-radius:999px;box-shadow:0 10px 24px rgba(58,158,110,.4);
+        transition:.15s;font-family:inherit}
+  .cta:hover{background:var(--green-d);transform:translateY(-1px)}
+  .cta:active{transform:translateY(1px)}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;
-        padding:22px;box-shadow:var(--shadow);margin-top:18px}
-  .card h2{margin:0 0 4px;font-size:19px;color:var(--blue);display:flex;align-items:center;gap:8px}
-  .card .sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+  /* nav pill at hero bottom */
+  .nav{position:absolute;left:50%;transform:translateX(-50%);bottom:22px;z-index:5;
+       display:flex;gap:2px;max-width:94vw;overflow-x:auto;scrollbar-width:none;
+       background:rgba(255,255,255,.8);backdrop-filter:blur(10px);border-radius:999px;
+       padding:7px;box-shadow:0 8px 26px rgba(70,90,70,.18)}
+  .nav::-webkit-scrollbar{display:none}
+  .nav a{white-space:nowrap;text-decoration:none;color:var(--brown);font-size:15px;font-weight:bold;
+       padding:9px 16px;border-radius:999px;transition:.15s}
+  .nav a:hover{background:var(--green-l);color:var(--green-d)}
+  .nav a.cta-nav{background:var(--green);color:#fff}
 
-  /* SPEAKER */
-  .speaker{display:flex;gap:14px;align-items:flex-start}
-  .speaker .ava{flex:0 0 54px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--apri),var(--brown));
-       color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px}
-  .speaker .who b{color:var(--brown);font-size:16px}
-  .speaker .who .role{color:var(--muted);font-size:13.5px;margin-top:3px}
+  /* ---------- SECTIONS ---------- */
+  section{padding:52px 0 8px;scroll-margin-top:16px}
+  .sec-head{text-align:center;margin-bottom:24px}
+  .sec-head .kick{color:var(--green-d);font-weight:bold;letter-spacing:3px;font-size:13px}
+  .sec-head h2{margin:6px 0 4px;font-size:28px;color:var(--brown)}
+  .sec-head p{margin:0;color:var(--muted);font-size:14.5px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+        box-shadow:var(--shadow);padding:24px}
 
-  /* TIMELINE */
-  .tl{position:relative;margin:6px 0 0;padding-left:8px}
-  .tl .item{display:flex;gap:14px;padding:9px 0}
-  .tl .t{flex:0 0 118px;text-align:right;color:var(--apri);font-weight:bold;font-size:13.5px;padding-top:2px}
+  /* timeline */
+  .tl .item{display:flex;gap:16px;padding:11px 0}
+  .tl .t{flex:0 0 128px;text-align:right;color:var(--green-d);font-weight:bold;font-size:14px;padding-top:2px}
   .tl .dot{flex:0 0 12px;position:relative}
-  .tl .dot::before{content:"";position:absolute;left:3px;top:6px;width:9px;height:9px;border-radius:50%;
-       background:var(--apri);box-shadow:0 0 0 3px #fbe6d3}
-  .tl .item:not(:last-child) .dot::after{content:"";position:absolute;left:7px;top:14px;bottom:-14px;width:2px;background:var(--line)}
-  .tl .c .n{font-weight:bold;color:var(--ink);font-size:14.5px}
-  .tl .c .d{color:var(--muted);font-size:12.5px}
+  .tl .dot::before{content:"";position:absolute;left:2px;top:6px;width:10px;height:10px;border-radius:50%;
+       background:var(--green);box-shadow:0 0 0 4px var(--green-l)}
+  .tl .item:not(:last-child) .dot::after{content:"";position:absolute;left:6px;top:16px;bottom:-16px;width:2px;background:var(--line)}
+  .tl .n{font-weight:bold;color:var(--ink);font-size:15px}
+  .tl .d{color:var(--muted);font-size:13px}
 
-  /* VERSE */
-  .verse{background:linear-gradient(135deg,#fff8ef,#fdeeda);text-align:center}
-  .verse .cross{font-size:26px}
-  .verse p{font-size:16.5px;color:var(--brown);font-style:italic;margin:10px 20px}
-  .verse .ref{color:var(--apri);font-weight:bold;font-size:14px}
+  /* prizes */
+  .prize-img{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 6px 18px rgba(90,70,54,.1)}
+  .rules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+  @media(max-width:620px){.rules{grid-template-columns:1fr}}
+  .rule{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fffdf8}
+  .rule .rt{font-weight:bold;color:var(--brown);font-size:15px;display:flex;align-items:center;gap:7px}
+  .rule .rc{color:var(--ink);font-size:13.5px;margin-top:5px}
+  .rule .cnt{display:inline-block;background:var(--green-l);color:var(--green-d);font-weight:bold;
+       border-radius:999px;padding:1px 10px;font-size:13px;margin-left:auto}
+  .qualify{margin-top:16px;background:var(--green-l);border-radius:14px;padding:14px 18px;
+       color:var(--green-d);font-size:14.5px;line-height:1.8}
 
-  /* FORM */
+  /* quiz */
+  .quiz-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center}
+  @media(max-width:680px){.quiz-grid{grid-template-columns:1fr}}
+  .q{border-bottom:1px dashed var(--line);padding:12px 0}
+  .q:last-child{border-bottom:none}
+  .q .qn{font-weight:bold;color:var(--brown);font-size:15.5px}
+  .q .qo{color:var(--muted);font-size:13px;margin-top:4px}
+  .qr-box{text-align:center}
+  .qr-box img{width:210px;margin:0 auto;border:8px solid #fff;border-radius:16px;box-shadow:var(--shadow)}
+  .qr-box a{display:inline-block;margin-top:12px;background:var(--green);color:#fff;text-decoration:none;
+       font-weight:bold;padding:11px 22px;border-radius:999px}
+  .qr-box .cap{color:var(--muted);font-size:13px;margin-top:8px}
+
+  /* draw / winners */
+  .stage{text-align:center}
+  .roll{font-size:clamp(30px,6vw,52px);font-weight:900;color:var(--green-d);letter-spacing:3px;
+        min-height:70px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:14px;margin:6px 0 12px}
+  .roll .win{color:var(--apri);animation:pop .4s ease}
+  @keyframes pop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .btn{border:none;border-radius:999px;padding:13px 30px;font-size:16px;font-weight:bold;cursor:pointer;
+       font-family:inherit;color:#fff;background:var(--green);transition:.15s;box-shadow:0 8px 20px rgba(58,158,110,.35)}
+  .btn:hover{background:var(--green-d)} .btn:active{transform:translateY(1px)}
+  .btn.sm{padding:9px 18px;font-size:14px;background:#b9ad98;box-shadow:none}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .winners{margin-top:18px;text-align:left}
+  .winners .pr{border-bottom:1px dashed var(--line);padding:10px 2px}
+  .winners .pr:last-child{border-bottom:none}
+  .winners .ph{font-weight:bold;color:var(--green-d)}
+  .winners .pn{color:var(--brown)}
+  .drawn-at{color:var(--muted);font-size:12.5px;text-align:center;margin-top:10px}
+
+  /* form */
   label.f{display:block;margin:14px 0 6px;font-weight:bold;color:var(--brown);font-size:14.5px}
   label.f .req{color:var(--apri)}
-  input[type=text],input[type=email],textarea,select{
-    width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 13px;
-    font-family:inherit;font-size:15px;background:#fffdf8;color:var(--ink)}
-  textarea{resize:vertical;min-height:74px}
-  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--apri);background:#fff}
+  input[type=text],input[type=email],textarea{width:100%;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;font-family:inherit;font-size:15px;background:#fffdf8;color:var(--ink)}
+  textarea{resize:vertical;min-height:70px}
+  input:focus,textarea:focus{outline:none;border-color:var(--green);background:#fff}
   .opts{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
-  .opt{flex:1;min-width:120px}
+  .opt{flex:1;min-width:110px}
   .opt input{position:absolute;opacity:0;pointer-events:none}
-  .opt span{display:block;text-align:center;border:1.5px solid var(--line);border-radius:11px;
+  .opt span{display:block;text-align:center;border:1.5px solid var(--line);border-radius:12px;
        padding:11px 8px;cursor:pointer;background:#fffdf8;font-size:14.5px;transition:.15s}
-  .opt input:checked + span{border-color:var(--apri);background:#fbe6d3;color:var(--brown);font-weight:bold}
+  .opt input:checked + span{border-color:var(--green);background:var(--green-l);color:var(--green-d);font-weight:bold}
   .hint{font-size:12.5px;color:var(--muted);margin:6px 0 0}
-  .btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:bold;
-       cursor:pointer;font-family:inherit;color:#fff;background:var(--apri);width:100%;margin-top:22px;
-       transition:.15s;box-shadow:0 6px 16px rgba(217,138,78,.35)}
-  .btn:active{transform:translateY(1px)}
-  .btn:disabled{opacity:.55;cursor:not-allowed}
-  #msg{margin-top:14px;font-size:14px;text-align:center;min-height:20px}
-  #msg.err{color:#c0563c;font-weight:bold}
-  #msg.ok{color:var(--green);font-weight:bold}
-
-  /* SUCCESS */
-  .done{display:none;text-align:center;padding:14px 6px}
+  #fmsg{margin-top:12px;text-align:center;font-size:14px;min-height:18px}
+  #fmsg.err{color:#c0563c;font-weight:bold}
+  .done{display:none;text-align:center;padding:10px}
   .done .big{font-size:52px}
-  .done h2{color:var(--brown);justify-content:center}
-  .done p{color:var(--ink);font-size:15px}
-  .done .lot{display:inline-block;margin-top:10px;background:var(--blue);color:#fff;text-decoration:none;
-       padding:10px 20px;border-radius:11px;font-weight:bold;font-size:14.5px}
 
-  /* GUIDELINES */
-  .gl{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:560px){.gl{grid-template-columns:1fr}}
-  .gl .g{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fffdf8}
-  .gl .g .gt{font-weight:bold;color:var(--brown);font-size:14px}
-  .gl .g .gd{color:var(--muted);font-size:12.5px;margin-top:3px}
-
-  .foot{text-align:center;color:#a99c86;font-size:12.5px;margin-top:30px;line-height:1.9}
+  .foot{text-align:center;color:#a99c86;font-size:12.5px;margin:44px 0 30px;line-height:1.9}
+  .verse{text-align:center;color:var(--green-d);font-style:italic;font-size:15px;margin:30px 0 0}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <span class="badge">CECI 台灣世曦 · 飛揚社</span>
-  <h1>2026 父親節特別活動</h1>
-  <div class="theme">《沙灘上的雙重腳印》</div>
-  <div class="meta">🗓️ <b>8/7（五）12:00–13:00</b>　📍 <b>華光廳</b></div>
-</div>
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="datepill">2026.08.07（五）12:00–13:00</div>
+  <h1>父親節特別活動</h1>
+  <div class="sub">講員分享 · 祝福禮 · 摸彩抽獎</div>
+  <div class="theme">《沙灘上的雙重腳印》— 戴豐源博士 ✕ 萍萍　｜　地點：華光廳</div>
+  <button class="cta" onclick="goForm()">🎟️ 立即報名及點餐</button>
 
-<div class="wrap">
+  <nav class="nav">
+    <a href="#flow">活動流程</a>
+    <a href="#prizes">摸彩獎項</a>
+    <a href="#quiz">摸彩通關</a>
+    <a href="#draw">喜從天降</a>
+    <a href="#signup" class="cta-nav">立即報名</a>
+  </nav>
+</header>
 
-  <!-- 講員 -->
-  <div class="card">
-    <div class="speaker">
-      <div class="ava">🎤</div>
-      <div class="who">
-        <b>講員｜戴豐源博士（Frank）</b>
-        <div class="role">前科技公司 CTO・拍立得高級工程師・東京大學工學博士。分享跨台日美中的職場歷練，以及父親與信仰交織的生命故事。</div>
+<main class="wrap">
+
+  <!-- ===== 活動流程 ===== -->
+  <section id="flow">
+    <div class="sec-head"><div class="kick">SCHEDULE</div><h2>活動流程</h2><p>一小時，暖心相聚</p></div>
+    <div class="card tl">
+      <div class="item"><div class="t">12:00–12:05</div><div class="dot"></div><div><div class="n">報到、入席</div><div class="d">背景音樂迎賓</div></div></div>
+      <div class="item"><div class="t">12:05–12:10</div><div class="dot"></div><div><div class="n">開場・破冰</div><div class="d">摸彩通關玩法說明</div></div></div>
+      <div class="item"><div class="t">12:10–12:55</div><div class="dot"></div><div><div class="n">講員分享</div><div class="d">戴豐源博士《沙灘上的雙重腳印》＋萍萍時間</div></div></div>
+      <div class="item"><div class="t">12:55–12:58</div><div class="dot"></div><div><div class="n">摸彩通關</div><div class="d">大螢幕 QR Code 掃碼作答</div></div></div>
+      <div class="item"><div class="t">12:58–13:00</div><div class="dot"></div><div><div class="n">祝福禱告</div><div class="d">視情況 QA</div></div></div>
+      <div class="item"><div class="t">會後</div><div class="dot"></div><div><div class="n">喜從天降・驚喜摸彩</div><div class="d">實體 4 名・線上 1 名</div></div></div>
+    </div>
+  </section>
+
+  <!-- ===== 摸彩獎項 ===== -->
+  <section id="prizes">
+    <div class="sec-head"><div class="kick">PRIZES</div><h2>摸彩獎項</h2><p>填報名 · 通關作答 · 抽好禮</p></div>
+    <div class="card">
+      <div class="prize-img"><img src="./assets/prizes.png" alt="摸彩好禮：Oral-B 電動牙刷、好立善 葉黃素、威剛與小米行動電源"></div>
+      <div class="rules">
+        <div class="rule"><div class="rt">🎉 普天同慶獎 <span class="cnt">×3</span></div><div class="rc">所有完成摸彩通關的與會者皆可抽。</div></div>
+        <div class="rule"><div class="rt">👨 爸爸萬歲獎 <span class="cnt">×1</span></div><div class="rc">現場具父親身份、且完成通關的同仁。</div></div>
+        <div class="rule"><div class="rt">💻 線上專屬獎 <span class="cnt">×1</span></div><div class="rc">線上參加並完成通關的同仁。</div></div>
+        <div class="rule"><div class="rt">🎁 會後驚喜獎 <span class="cnt">實體4 · 線上1</span></div><div class="rc">會後由通關名單隨機抽出。</div></div>
+      </div>
+      <div class="qualify">
+        <b>資格說明：</b>報名者皆為摸彩來源，<b>現場通關填答即可參加</b>。<br>
+        獎品含 Oral-B 電動牙刷、好立善 葉黃素、威剛／小米 行動電源等（名額與獎品可依現場調整）。
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- 流程 -->
-  <div class="card">
-    <h2>🕛 活動流程</h2>
-    <p class="sub">一小時，暖心相聚</p>
-    <div class="tl">
-      <div class="item"><div class="t">12:00–12:05</div><div class="dot"></div><div class="c"><div class="n">報到、入席</div><div class="d">背景音樂迎賓</div></div></div>
-      <div class="item"><div class="t">12:05–12:10</div><div class="dot"></div><div class="c"><div class="n">開場・破冰</div><div class="d">摸彩玩法說明</div></div></div>
-      <div class="item"><div class="t">12:10–12:55</div><div class="dot"></div><div class="c"><div class="n">講員分享</div><div class="d">戴豐源博士＋萍姐時間</div></div></div>
-      <div class="item"><div class="t">12:55–12:58</div><div class="dot"></div><div class="c"><div class="n">摸彩通關</div><div class="d">大螢幕 QR Code 填答</div></div></div>
-      <div class="item"><div class="t">12:58–13:00</div><div class="dot"></div><div class="c"><div class="n">祝福禱告</div><div class="d">視情況 QA</div></div></div>
-      <div class="item"><div class="t">會後</div><div class="dot"></div><div class="c"><div class="n">驚喜摸彩</div><div class="d">實體 4 名・線上 1 名</div></div></div>
-    </div>
-  </div>
-
-  <!-- 經文 -->
-  <div class="card verse">
-    <div class="cross">✝️</div>
-    <p>「你當剛強壯膽…因為耶和華你的神必與你同去；他必不撇下你，也不丟棄你。」</p>
-    <div class="ref">— 申命記 31:8</div>
-  </div>
-
-  <!-- 報名表單 -->
-  <div class="card" id="formCard">
-    <h2>📝 活動報名</h2>
-    <p class="sub">填寫即完成報名，並自動成為<b style="color:var(--apri)">摸彩參加名單</b>。</p>
-    <form id="form" novalidate>
-      <label class="f">姓名 <span class="req">*</span></label>
-      <input type="text" id="name" autocomplete="name" placeholder="您的姓名" required>
-
-      <label class="f">部門</label>
-      <input type="text" id="dept" placeholder="所屬部門／單位">
-
-      <label class="f">公司 Email <span class="req">*</span></label>
-      <input type="email" id="email" autocomplete="email" placeholder="name@ceci.com.tw" required>
-      <p class="hint">同一 Email 重複報名視為更新資料。</p>
-
-      <label class="f">參加方式 <span class="req">*</span></label>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="mode" value="實體" checked><span>🏢 實體出席</span></label>
-        <label class="opt"><input type="radio" name="mode" value="線上"><span>💻 線上參加</span></label>
+  <!-- ===== 摸彩通關 ===== -->
+  <section id="quiz">
+    <div class="sec-head"><div class="kick">UNLOCK</div><h2>摸彩通關</h2><p>認真聽分享，答對 2 題就能參加摸彩</p></div>
+    <div class="card">
+      <div class="quiz-grid">
+        <div id="qList">
+          <div class="q"><div class="qn">Q1. 載入中…</div></div>
+        </div>
+        <div class="qr-box">
+          <img src="./assets/qr-quiz.png" alt="摸彩通關作答 QR Code">
+          <div><a href="./quiz" target="_blank" rel="noopener">📱 手機作答連結</a></div>
+          <div class="cap">用手機掃描 QR Code，或點上方連結，<br>填姓名並答對 2 題即納入摸彩名單。</div>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <label class="f">午餐便當</label>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="lunch" value="葷" checked><span>🍱 葷食</span></label>
-        <label class="opt"><input type="radio" name="lunch" value="素"><span>🥗 素食</span></label>
-        <label class="opt"><input type="radio" name="lunch" value="不用"><span>🚫 不用</span></label>
+  <!-- ===== 喜從天降 ===== -->
+  <section id="draw">
+    <div class="sec-head"><div class="kick">LUCKY DRAW</div><h2>喜從天降</h2><p>會後由通關名單依序抽出，結果即時公布於此</p></div>
+    <div class="card stage">
+      <div class="roll" id="roll">🎁</div>
+      <div id="drawPrize" style="color:var(--brown);font-weight:bold;min-height:22px">按下方按鈕開始抽獎</div>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn" id="drawBtn" onclick="startDraw()">🎲 開始抽獎</button>
+        <button class="btn sm" onclick="loadWinners()">重新整理結果</button>
       </div>
+      <div id="eligibleInfo" class="drawn-at"></div>
+      <div class="winners" id="winners"></div>
+      <div class="drawn-at" id="drawnAt"></div>
+    </div>
+  </section>
 
-      <label class="f">我是爸爸</label>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="father" value="否" checked><span>否</span></label>
-        <label class="opt"><input type="radio" name="father" value="是"><span>👨 是（爸爸萬歲獎抽池）</span></label>
+  <!-- ===== 報名及點餐 ===== -->
+  <section id="signup">
+    <div class="sec-head"><div class="kick">SIGN UP</div><h2>立即報名及點餐</h2><p>填寫即完成報名，並自動成為摸彩來源</p></div>
+    <div class="card" id="formCard">
+      <form id="form" novalidate>
+        <label class="f">姓名 <span class="req">*</span></label>
+        <input type="text" id="name" autocomplete="name" placeholder="您的姓名" required>
+        <label class="f">部門</label>
+        <input type="text" id="dept" placeholder="所屬部門／單位">
+        <label class="f">公司 Email <span class="req">*</span></label>
+        <input type="email" id="email" autocomplete="email" placeholder="name@ceci.com.tw" required>
+        <p class="hint">同一 Email 重複報名視為更新資料。</p>
+
+        <label class="f">參加方式 <span class="req">*</span></label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="mode" value="實體" checked><span>🏢 實體出席</span></label>
+          <label class="opt"><input type="radio" name="mode" value="線上"><span>💻 線上參加</span></label>
+        </div>
+
+        <label class="f">午餐便當（點餐）</label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="lunch" value="葷" checked><span>🍱 葷食</span></label>
+          <label class="opt"><input type="radio" name="lunch" value="素"><span>🥗 素食</span></label>
+          <label class="opt"><input type="radio" name="lunch" value="不用"><span>🚫 不用</span></label>
+        </div>
+
+        <label class="f">我是爸爸</label>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="father" value="否" checked><span>否</span></label>
+          <label class="opt"><input type="radio" name="father" value="是"><span>👨 是（爸爸萬歲獎抽池）</span></label>
+        </div>
+
+        <label class="f">想對爸爸／家人說的一句話</label>
+        <textarea id="message" maxlength="200" placeholder="（選填）一句祝福或感謝的話"></textarea>
+
+        <button type="submit" class="btn" id="submit" style="width:100%;margin-top:22px">送出報名及點餐</button>
+        <div id="fmsg"></div>
+      </form>
+      <div class="done" id="done">
+        <div class="big">🎉</div>
+        <h2 style="color:var(--brown)">報名成功！</h2>
+        <p>已收到您的報名與餐點，並列入摸彩來源。<br>活動當天記得掃碼「摸彩通關」才能參加抽獎喔！</p>
       </div>
-
-      <label class="f">想對爸爸／家人說的一句話</label>
-      <textarea id="message" maxlength="200" placeholder="（選填）一句祝福或感謝的話"></textarea>
-
-      <button type="submit" class="btn" id="submit">送出報名</button>
-      <div id="msg"></div>
-    </form>
-
-    <div class="done" id="done">
-      <div class="big">🎉</div>
-      <h2>報名成功！</h2>
-      <p>已收到您的報名，並列入摸彩名單。<br>8/7（五）華光廳見！</p>
-      <a class="lot" href="./lottery.html">前往會後摸彩頁 →</a>
     </div>
-  </div>
+  </section>
 
-  <!-- 摸彩說明 -->
-  <div class="card">
-    <h2>🎁 摸彩獎項</h2>
-    <p class="sub">報名者皆為摸彩來源，現場通關填答即可參加。</p>
-    <div class="gl">
-      <div class="g"><div class="gt">普天同慶獎 ×3</div><div class="gd">所有完成通關的與會者</div></div>
-      <div class="g"><div class="gt">爸爸萬歲獎 ×1</div><div class="gd">現場具父親身份的同仁</div></div>
-      <div class="g"><div class="gt">線上專屬獎 ×1</div><div class="gd">線上填寫通關的同仁</div></div>
-      <div class="g"><div class="gt">會後驚喜摸彩</div><div class="gd">實體 4 名・線上 1 名</div></div>
-    </div>
-  </div>
-
-  <!-- 須知 -->
-  <div class="card">
-    <h2>📌 溫馨提醒</h2>
-    <div class="gl">
-      <div class="g"><div class="gt">準時入席</div><div class="gd">12:00 開始報到，敬請準時。</div></div>
-      <div class="g"><div class="gt">午餐預訂</div><div class="gd">依報名葷素統計訂餐，請據實填寫。</div></div>
-      <div class="g"><div class="gt">認真聆聽</div><div class="gd">摸彩通關題與講員分享有關。</div></div>
-      <div class="g"><div class="gt">邀請同工</div><div class="gd">歡迎轉發此報名連結給更多同仁。</div></div>
-    </div>
-  </div>
-
-  <div class="foot">
-    飛揚社 · CECI 台灣世曦基督徒團契<br>
-    2026 父親節特別活動 · 願天父的愛與您同在
-  </div>
-</div>
+  <div class="verse">「耶和華必在你前面行，祂必與你同在。」— 申命記 31:8</div>
+  <div class="foot">CECI 台灣世曦 · 飛揚社基督徒團契<br>2026 父親節特別活動 · 願天父的愛與您同在</div>
+</main>
 
 <script>
-const form = document.getElementById('form');
-const msg = document.getElementById('msg');
-const btn = document.getElementById('submit');
+function goForm(){ document.getElementById('signup').scrollIntoView({behavior:'smooth'}); }
 
-function radio(name){ const el = form.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
+/* ---- 摸彩通關題目（從後端載入，不含正解） ---- */
+fetch('/api/quiz').then(r=>r.json()).then(d=>{
+  if(!d.ok) return;
+  document.getElementById('qList').innerHTML = d.questions.map((q,i)=>
+    `<div class="q"><div class="qn">Q${i+1}. ${q.title}</div><div class="qo">${q.options.map((o,j)=>`(${j+1}) ${o}`).join('　')}</div></div>`
+  ).join('');
+}).catch(()=>{});
 
-form.addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  msg.className=''; msg.textContent='';
-  const payload = {
-    name: document.getElementById('name').value.trim(),
-    dept: document.getElementById('dept').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    mode: radio('mode'),
-    lunch: radio('lunch'),
-    isFather: radio('father') === '是',
-    message: document.getElementById('message').value.trim(),
-  };
-  if(!payload.name){ return fail('請填寫姓名'); }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)){ return fail('請填寫正確的公司 Email'); }
+/* ---- 獎項設定（抽獎邏輯） ---- */
+const PRIZES = [
+  {id:'p1', name:'普天同慶獎', pool:'all',    count:3},
+  {id:'p2', name:'爸爸萬歲獎', pool:'father', count:1},
+  {id:'p3', name:'線上專屬獎', pool:'online', count:1},
+  {id:'p4', name:'會後驚喜獎（實體）', pool:'onsite', count:4},
+  {id:'p5', name:'會後驚喜獎（線上）', pool:'online', count:1},
+];
+function inPool(p,pool){
+  if(pool==='all') return true;
+  if(pool==='father') return p.isFather && p.mode==='實體';
+  if(pool==='online') return p.mode==='線上';
+  if(pool==='onsite') return p.mode==='實體';
+  return false;
+}
 
-  btn.disabled=true; btn.textContent='送出中…';
+/* ---- 讀取已公布中獎結果 ---- */
+async function loadWinners(){
   try{
-    const r = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    const data = await r.json();
-    if(!r.ok || !data.ok){ throw new Error(data.error || '送出失敗'); }
-    document.getElementById('form').style.display='none';
-    document.getElementById('done').style.display='block';
-    document.getElementById('formCard').scrollIntoView({behavior:'smooth',block:'start'});
-  }catch(err){
-    fail(err.message || '送出失敗，請稍後再試');
-    btn.disabled=false; btn.textContent='送出報名';
-  }
-});
+    const r = await fetch('/api/winners',{cache:'no-store'});
+    const d = await r.json();
+    renderWinners(d.results||[], d.drawnAt);
+  }catch(e){}
+}
+function renderWinners(results, drawnAt){
+  const box=document.getElementById('winners');
+  if(!results.length){ box.innerHTML='<div class="drawn-at">尚未開獎。</div>'; document.getElementById('drawnAt').textContent=''; return; }
+  box.innerHTML = results.map(r=>`<div class="pr"><span class="ph">${r.prizeName}（${r.names.length}名）：</span><span class="pn">${r.names.join('、')}</span></div>`).join('');
+  document.getElementById('drawnAt').textContent = drawnAt ? ('開獎時間：'+new Date(drawnAt).toLocaleString('zh-TW',{timeZone:'Asia/Taipei'})) : '';
+}
 
-function fail(t){ msg.className='err'; msg.textContent='⚠️ '+t; btn.disabled=false; btn.textContent='送出報名'; }
+/* ---- 抽獎 ---- */
+let rolling=null;
+async function startDraw(){
+  const btn=document.getElementById('drawBtn');
+  if(!confirm('確定要開始抽獎並公布結果嗎？（會覆蓋先前公布的結果）')) return;
+  btn.disabled=true;
+  const info=document.getElementById('eligibleInfo');
+  info.textContent='讀取通關名單中…';
+  let people=[];
+  try{
+    const r=await fetch('/api/eligible',{cache:'no-store'});
+    const d=await r.json();
+    if(!d.ok) throw new Error(d.error||'讀取失敗');
+    people=d.people;
+  }catch(e){ info.textContent='⚠️ '+e.message; btn.disabled=false; return; }
+  if(!people.length){ info.textContent='目前沒有人通關，無法抽獎。'; btn.disabled=false; return; }
+  info.textContent=`通關名單共 ${people.length} 人，開始抽出…`;
+
+  const won=new Set();
+  const results=[];
+  const rollEl=document.getElementById('roll');
+  const prizeEl=document.getElementById('drawPrize');
+
+  for(const prize of PRIZES){
+    const pool=people.filter(p=>inPool(p,prize.pool) && !won.has(p.name));
+    const n=Math.min(prize.count, pool.length);
+    prizeEl.textContent=`正在抽出：${prize.name}（${n||0} 名）`;
+    if(n===0){ results.push({prizeId:prize.id, prizeName:prize.name, names:[]}); continue; }
+    await new Promise(res=>{
+      let ticks=0;
+      clearInterval(rolling);
+      rolling=setInterval(()=>{
+        const s=[]; for(let i=0;i<n;i++) s.push(pool[Math.floor(Math.random()*pool.length)].name);
+        rollEl.textContent=s.join('　');
+        if(++ticks>16){
+          clearInterval(rolling);
+          const bag=pool.slice(), pick=[];
+          for(let i=0;i<n;i++){ const idx=Math.floor(Math.random()*bag.length); pick.push(bag[idx].name); bag.splice(idx,1); }
+          pick.forEach(nm=>won.add(nm));
+          results.push({prizeId:prize.id, prizeName:prize.name, names:pick});
+          rollEl.innerHTML=pick.map(w=>`<span class="win">${w}</span>`).join('　');
+          renderWinners(results,new Date().toISOString());
+          setTimeout(res,700);
+        }
+      },70);
+    });
+  }
+  prizeEl.textContent='🎊 抽獎完成！';
+  rollEl.textContent='🎉';
+  // 公布到後端，讓所有人都看得到
+  try{
+    await fetch('/api/winners',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({results})});
+    info.textContent='結果已公布。';
+  }catch(e){ info.textContent='結果已抽出，但公布到伺服器失敗（其他人可能看不到）。'; }
+  btn.disabled=false;
+}
+
+/* ---- 報名表 ---- */
+const form=document.getElementById('form'), fmsg=document.getElementById('fmsg'), sbtn=document.getElementById('submit');
+function radio(n){const el=form.querySelector(`input[name="${n}"]:checked`);return el?el.value:'';}
+form.addEventListener('submit', async(e)=>{
+  e.preventDefault(); fmsg.className=''; fmsg.textContent='';
+  const payload={
+    name:document.getElementById('name').value.trim(),
+    dept:document.getElementById('dept').value.trim(),
+    email:document.getElementById('email').value.trim(),
+    mode:radio('mode'), lunch:radio('lunch'),
+    isFather:radio('father')==='是',
+    message:document.getElementById('message').value.trim(),
+  };
+  if(!payload.name){return ferr('請填寫姓名');}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)){return ferr('請填寫正確的公司 Email');}
+  sbtn.disabled=true; sbtn.textContent='送出中…';
+  try{
+    const r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const data=await r.json();
+    if(!r.ok||!data.ok) throw new Error(data.error||'送出失敗');
+    form.style.display='none'; document.getElementById('done').style.display='block';
+    document.getElementById('formCard').scrollIntoView({behavior:'smooth',block:'center'});
+  }catch(err){ ferr(err.message||'送出失敗，請稍後再試'); sbtn.disabled=false; sbtn.textContent='送出報名及點餐'; }
+});
+function ferr(t){fmsg.className='err';fmsg.textContent='⚠️ '+t;sbtn.disabled=false;sbtn.textContent='送出報名及點餐';}
+
+loadWinners();
 </script>
 </body>
 </html>

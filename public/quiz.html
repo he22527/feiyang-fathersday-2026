@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>摸彩通關｜飛揚社 2026 父親節特別活動</title>
+<style>
+  :root{--green:#3a9e6e;--green-d:#2f7d57;--green-l:#e6f4ec;--bg:#fbf6ec;--card:#fff;
+        --ink:#3a4e60;--brown:#5b4636;--apri:#d98a4e;--line:#e7ddca;--muted:#9b8d78}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Microsoft JhengHei","PingFang TC",sans-serif;background:linear-gradient(160deg,#fbf6ec,#e9f3ec);
+       color:var(--ink);line-height:1.7;min-height:100vh}
+  .wrap{max-width:520px;margin:0 auto;padding:26px 18px 60px}
+  .top{text-align:center;margin-bottom:14px}
+  .top .badge{display:inline-block;background:var(--green);color:#fff;font-weight:bold;font-size:12px;
+       letter-spacing:2px;padding:5px 14px;border-radius:999px}
+  .top h1{margin:12px 0 2px;font-size:24px;color:var(--brown)}
+  .top p{margin:0;color:var(--muted);font-size:13.5px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;
+        box-shadow:0 10px 26px rgba(70,90,70,.12);margin-top:14px}
+  label.f{display:block;margin:12px 0 6px;font-weight:bold;color:var(--brown);font-size:14px}
+  label.f .req{color:var(--apri)}
+  input[type=text],input[type=email]{width:100%;border:1px solid var(--line);border-radius:11px;
+    padding:11px 13px;font-family:inherit;font-size:15px;background:#fffdf8;color:var(--ink)}
+  input:focus{outline:none;border-color:var(--green);background:#fff}
+  .opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+  .opt{flex:1;min-width:90px}
+  .opt input{position:absolute;opacity:0;pointer-events:none}
+  .opt span{display:block;text-align:center;border:1.5px solid var(--line);border-radius:11px;
+       padding:10px 6px;cursor:pointer;background:#fffdf8;font-size:14px;transition:.15s}
+  .opt input:checked + span{border-color:var(--green);background:var(--green-l);color:var(--green-d);font-weight:bold}
+  .q{margin-top:16px}
+  .q .qn{font-weight:bold;color:var(--brown);font-size:15px;margin-bottom:8px}
+  .q .qopts{display:flex;flex-direction:column;gap:8px}
+  .q .qopt input{position:absolute;opacity:0;pointer-events:none}
+  .q .qopt span{display:block;border:1.5px solid var(--line);border-radius:11px;padding:11px 14px;
+       cursor:pointer;background:#fffdf8;font-size:14.5px;transition:.15s}
+  .q .qopt input:checked + span{border-color:var(--green);background:var(--green-l);color:var(--green-d);font-weight:bold}
+  .btn{width:100%;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer;
+       font-family:inherit;color:#fff;background:var(--green);margin-top:20px;box-shadow:0 8px 20px rgba(58,158,110,.35)}
+  .btn:active{transform:translateY(1px)} .btn:disabled{opacity:.5}
+  #msg{margin-top:12px;text-align:center;font-size:14px;min-height:18px}
+  #msg.err{color:#c0563c;font-weight:bold}
+  .result{display:none;text-align:center;padding:18px 6px}
+  .result .big{font-size:60px}
+  .result h2{margin:8px 0;color:var(--brown)}
+  .result.pass .big{color:var(--green)}
+  .result p{color:var(--ink);font-size:15px}
+  .retry{display:inline-block;margin-top:12px;background:#b9ad98;color:#fff;border:none;border-radius:11px;
+       padding:10px 20px;font-weight:bold;cursor:pointer;font-family:inherit}
+  .verse{text-align:center;color:var(--green-d);font-style:italic;font-size:13.5px;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="badge">摸彩通關</span>
+    <h1>認真聽，就答得出來 🙂</h1>
+    <p>填姓名並答對 2 題，即納入摸彩名單</p>
+  </div>
+
+  <div class="card" id="card">
+    <form id="qform" novalidate>
+      <label class="f">姓名 <span class="req">*</span></label>
+      <input type="text" id="name" autocomplete="name" placeholder="您的姓名">
+      <label class="f">公司 Email <span class="req">*</span></label>
+      <input type="email" id="email" autocomplete="email" placeholder="name@ceci.com.tw">
+      <p style="font-size:12px;color:var(--muted);margin:6px 0 0">請與報名時相同，以對應您的身分。</p>
+
+      <label class="f">參加方式 <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="mode" value="實體" checked><span>🏢 實體</span></label>
+        <label class="opt"><input type="radio" name="mode" value="線上"><span>💻 線上</span></label>
+      </div>
+      <label class="f">我是爸爸</label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="father" value="否" checked><span>否</span></label>
+        <label class="opt"><input type="radio" name="father" value="是"><span>👨 是</span></label>
+      </div>
+
+      <div id="qList"><div class="q"><div class="qn">題目載入中…</div></div></div>
+
+      <button type="submit" class="btn" id="submit">送出通關</button>
+      <div id="msg"></div>
+    </form>
+
+    <div class="result" id="result">
+      <div class="big" id="rIcon">🎉</div>
+      <h2 id="rTitle"></h2>
+      <p id="rText"></p>
+      <button class="retry" id="retry" onclick="location.reload()" style="display:none">再試一次</button>
+    </div>
+  </div>
+
+  <div class="verse">「耶和華必在你前面行，祂必與你同在。」— 申命記 31:8</div>
+</div>
+
+<script>
+let QUESTIONS=[];
+fetch('/api/quiz').then(r=>r.json()).then(d=>{
+  if(!d.ok) throw 0;
+  QUESTIONS=d.questions;
+  document.getElementById('qList').innerHTML=QUESTIONS.map((q,i)=>
+    `<div class="q"><div class="qn">Q${i+1}. ${q.title}</div><div class="qopts">${
+      q.options.map((o,j)=>`<label class="qopt"><input type="radio" name="${q.id}" value="${j}"><span>${o}</span></label>`).join('')
+    }</div></div>`
+  ).join('');
+}).catch(()=>{document.getElementById('qList').innerHTML='<div class="q"><div class="qn" style="color:#c0563c">題目載入失敗，請重新整理。</div></div>';});
+
+const form=document.getElementById('qform'), msg=document.getElementById('msg'), btn=document.getElementById('submit');
+function radio(n){const el=form.querySelector(`input[name="${n}"]:checked`);return el?el.value:'';}
+
+form.addEventListener('submit', async(e)=>{
+  e.preventDefault(); msg.className=''; msg.textContent='';
+  const name=document.getElementById('name').value.trim();
+  const email=document.getElementById('email').value.trim();
+  if(!name) return err('請填寫姓名');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err('請填寫正確的 Email');
+  const answers={};
+  for(const q of QUESTIONS){ const v=radio(q.id); if(v==='') return err('請作答所有題目'); answers[q.id]=Number(v); }
+
+  btn.disabled=true; btn.textContent='送出中…';
+  try{
+    const r=await fetch('/api/quiz',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,email,mode:radio('mode'),isFather:radio('father')==='是',answers})});
+    const d=await r.json();
+    if(!r.ok||!d.ok) throw new Error(d.error||'送出失敗');
+    show(d.passed, d.error);
+  }catch(err2){ err(err2.message||'送出失敗，請稍後再試'); btn.disabled=false; btn.textContent='送出通關'; }
+});
+function err(t){msg.className='err';msg.textContent='⚠️ '+t;}
+function show(passed, failMsg){
+  form.style.display='none';
+  const box=document.getElementById('result'); box.style.display='block';
+  if(passed){
+    box.classList.add('pass');
+    document.getElementById('rIcon').textContent='🎉';
+    document.getElementById('rTitle').textContent='通關成功！';
+    document.getElementById('rText').innerHTML='您已納入摸彩名單，<br>會後抽獎請留意大螢幕與網頁公布 🍀';
+  }else{
+    document.getElementById('rIcon').textContent='🤔';
+    document.getElementById('rTitle').textContent='還差一點點';
+    document.getElementById('rText').textContent=failMsg||'答案不完全正確，再聽一次分享後重試吧！';
+    document.getElementById('retry').style.display='inline-block';
+  }
+}
+</script>
+</body>
+</html>
