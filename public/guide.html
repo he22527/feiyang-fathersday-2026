@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用說明｜飛揚社 2026 父親節特別活動網站</title>
+<meta name="description" content="飛揚社 2026 父親節特別活動報名／摸彩網站的使用說明（參加者與工作人員）。">
+<style>
+  :root{--green:#3a9e6e;--green-d:#2f7d57;--green-l:#e6f4ec;--bg:#fbf6ec;--card:#fff;
+        --ink:#3a4e60;--brown:#5b4636;--apri:#d98a4e;--line:#e7ddca;--muted:#9b8d78}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Microsoft JhengHei","微軟正黑體","PingFang TC",sans-serif;
+       background:linear-gradient(160deg,#fbf6ec,#eef4ec);color:var(--ink);line-height:1.8}
+  .wrap{max-width:820px;margin:0 auto;padding:30px 18px 70px}
+  .top{text-align:center;margin-bottom:8px}
+  .top .badge{display:inline-block;background:var(--green);color:#fff;font-weight:bold;font-size:12px;
+       letter-spacing:2px;padding:5px 15px;border-radius:999px}
+  .top h1{margin:14px 0 4px;font-size:27px;color:var(--brown)}
+  .top .u{color:var(--green-d);font-size:14px;word-break:break-all}
+  .top .u a{color:var(--green-d)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
+        box-shadow:0 8px 22px rgba(70,90,70,.1);margin-top:18px;break-inside:avoid}
+  .card h2{margin:0 0 8px;font-size:19px;color:var(--brown);display:flex;align-items:center;gap:9px}
+  .card h3{margin:14px 0 4px;font-size:15.5px;color:var(--green-d)}
+  ul{margin:6px 0;padding-left:22px}
+  li{margin:5px 0}
+  code,.k{background:#f1ece0;border-radius:6px;padding:1px 7px;font-size:13.5px;color:var(--brown);
+       font-family:ui-monospace,Menlo,Consolas,monospace;word-break:break-all}
+  .pill{display:inline-block;background:var(--green-l);color:var(--green-d);font-weight:bold;
+       border-radius:999px;padding:2px 11px;font-size:13px;margin:2px 2px}
+  .note{background:#fff6e5;border:1px solid #f0d9a8;border-radius:11px;padding:11px 14px;color:#a9702f;font-size:14px;margin-top:10px}
+  .adminbox{border:2px dashed var(--green);background:#f2faf5}
+  .hideadmin{display:none}
+  .tag{display:inline-block;background:var(--apri);color:#fff;font-size:11px;font-weight:bold;
+       padding:2px 9px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .foot{text-align:center;color:#a99c86;font-size:12.5px;margin-top:26px}
+  .btnrow{text-align:center;margin-top:16px}
+  .pbtn{border:none;background:var(--green);color:#fff;font-weight:bold;font-family:inherit;
+       padding:11px 22px;border-radius:999px;font-size:14.5px;cursor:pointer;box-shadow:0 6px 16px rgba(58,158,110,.3)}
+  @media print{
+    body{background:#fff}
+    .card{box-shadow:none;border-color:#ccc}
+    .btnrow,.no-print{display:none!important}
+    .adminbox{background:#fff}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="badge">使 用 說 明</span>
+    <h1>飛揚社 2026 父親節特別活動網站</h1>
+    <div class="u">🌐 <a href="https://feiyang-lottery.vercel.app/">feiyang-lottery.vercel.app</a></div>
+  </div>
+
+  <div class="btnrow no-print">
+    <button class="pbtn" onclick="window.print()">🖨️ 列印 / 存成 PDF</button>
+  </div>
+
+  <!-- 網址 -->
+  <div class="card">
+    <h2>🔗 網址總覽</h2>
+    <ul>
+      <li><b>報名／活動主頁</b>：<code>feiyang-lottery.vercel.app/</code></li>
+      <li><b>手機通關作答</b>：<code>feiyang-lottery.vercel.app/quiz</code></li>
+      <li class="admin-only hideadmin"><b>主持人專用（抽獎／下載）</b><span class="tag">工作人員</span>：<code>feiyang-lottery.vercel.app/?admin=feiyang2026</code></li>
+    </ul>
+  </div>
+
+  <!-- 參加者 -->
+  <div class="card">
+    <h2>👥 給參加者</h2>
+    <h3>① 報名及點餐</h3>
+    <ul>
+      <li>點主頁「🎟️ 立即報名及點餐」→ 彈出表單。</li>
+      <li>填寫：姓名（必填）、部門、公司 Email（必填）、參加方式（實體／線上）、午餐便當（葷／素／不用）、是否爸爸、想說的一句話。</li>
+      <li>按「送出報名及點餐」即完成；同一 Email 再填一次視為<b>更新資料</b>。</li>
+      <li>表單上方會顯示「目前報名 <b>N / 85</b> 人（尚餘 X 位）」。</li>
+    </ul>
+    <h3>② 看活動資訊</h3>
+    <ul><li>主頁按鈕彈窗：<span class="pill">活動流程</span><span class="pill">講員簡介</span><span class="pill">摸彩獎項</span>。</li></ul>
+    <h3>③ 摸彩通關（活動當天）</h3>
+    <ul>
+      <li>開主頁「摸彩通關」用手機掃 <b>QR Code</b>，或直接開 <code>/quiz</code>。</li>
+      <li>填姓名、Email、參加方式、是否爸爸，並<b>答對 2 題</b>（與講員分享有關）。</li>
+      <li>答對即納入摸彩名單；<b>答錯可重填</b>。</li>
+      <li>⏰ 送出功能有<b>時間閘門</b>，未到開放時間送不出（頁面會顯示倒數）。</li>
+    </ul>
+    <h3>④ 首頁底部</h3>
+    <ul><li>動態聖經金句輪播（尊榮父親／家庭和睦／夫妻・親子）＋ 台北即時天氣。</li></ul>
+  </div>
+
+  <!-- 自動行為 -->
+  <div class="card">
+    <h2>⚙️ 系統自動行為</h2>
+    <ul>
+      <li>每有一筆報名，系統<b>自動寄通知信</b>給 4 位同工，內含：目前總人數、參加方式／是否爸爸統計、餐點與部門統計，並<b>附上全體報名者 Excel</b>。</li>
+      <li>報名人數達 <span class="pill">50</span><span class="pill">60</span><span class="pill">70</span><span class="pill">80</span> 人：通知信頂端出現 🔔 提醒。</li>
+      <li>報名人數達 <b>85</b> 人：<b>自動額滿、停止報名</b>（前台按鈕變「🈵 報名已額滿」、表單鎖住、後端擋新報名；既有報名者仍可更新）。</li>
+    </ul>
+  </div>
+
+  <!-- 主持人（含密碼，需 ?admin= 才顯示） -->
+  <div class="card adminbox admin-only hideadmin">
+    <h2>🎤 工作人員操作 <span class="tag">機密</span></h2>
+    <p class="note">本區含主持人密碼，僅在網址加 <code>?admin=feiyang2026</code> 時顯示，請勿轉傳給參加者。</p>
+    <h3>開獎（喜從天降）</h3>
+    <ul>
+      <li>用主持人網址開主頁 → 點「喜從天降」→「🎲 開始抽獎」。</li>
+      <li>系統依獎項順序，從<b>通關者</b>中按身分（全體／現場爸爸／線上／實體）隨機抽出，結果<b>即時公布到網頁</b>，人人可見。</li>
+      <li>一般來賓看「喜從天降」只有中獎公布，<b>看不到抽獎按鈕</b>。</li>
+    </ul>
+    <h3>下載名單</h3>
+    <ul>
+      <li>通關名單 Excel：「喜從天降」視窗內「⬇️ 下載通關名單 Excel」；或連結 <code>/api/export?key=feiyang2026</code>。</li>
+      <li>全體報名者 Excel：每封報名通知信都會自動附上。</li>
+    </ul>
+    <h3>可調整的設定</h3>
+    <ul>
+      <li><b>通關開放時間</b>：目前 <code>2026/07/22 02:46</code>（測試用）→ <b>正式前請改回 2026/08/07 11:30</b>。（環境變數 <code>QUIZ_OPEN_AT</code>）</li>
+      <li><b>報名上限</b>：預設 85（環境變數 <code>REG_CAP</code>）。</li>
+      <li><b>主持人密碼</b>：<code>feiyang2026</code>（<code>?admin=</code> 與 <code>?key=</code> 共用）。</li>
+      <li><b>通關題目／正解、金句、天氣城市</b>：皆可調整。</li>
+    </ul>
+  </div>
+
+  <div class="foot">CECI 台灣世曦 · 飛揚社基督徒團契　|　2026 父親節特別活動</div>
+</div>
+
+<script>
+  // 帶 ?admin=feiyang2026 才顯示工作人員（含密碼）區塊
+  if(new URLSearchParams(location.search).get('admin')==='feiyang2026'){
+    document.querySelectorAll('.admin-only').forEach(el=>el.classList.remove('hideadmin'));
+  }
+</script>
+</body>
+</html>
