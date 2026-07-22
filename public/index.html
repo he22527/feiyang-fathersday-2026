@@ -318,7 +318,13 @@
   <div class="mcard">
     <button class="mx" onclick="closeAll()">✕</button>
     <div class="sec-head"><div class="kick">SIGN UP</div><h2>立即報名及點餐</h2><p>填寫即完成報名，並自動成為摸彩來源</p></div>
+    <div id="capNote" style="text-align:center;color:var(--muted);font-size:13px;margin:-10px 0 8px;font-weight:bold"></div>
     <div id="formCard">
+      <div class="done" id="closed" style="display:none">
+        <div class="big">🈵</div>
+        <h2 style="color:var(--brown)">報名已額滿</h2>
+        <p>本次活動報名人數已達上限，<br>暫不再接受新報名，感謝您的支持！</p>
+      </div>
       <form id="form" novalidate>
         <label class="f">姓名 <span class="req">*</span></label>
         <input type="text" id="name" autocomplete="name" placeholder="您的姓名" required>
@@ -370,6 +376,7 @@ function openModal(id){
   document.body.style.overflow='hidden';
   if(id==='quiz') loadQuiz();
   if(id==='draw') loadWinners();
+  if(id==='signup') refreshStatus();
 }
 function closeAll(){
   document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'));
@@ -472,7 +479,10 @@ form.addEventListener('submit',async(e)=>{
   sbtn.disabled=true; sbtn.textContent='送出中…';
   try{
     const data=await (await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})).json();
-    if(!data.ok) throw new Error(data.error||'送出失敗');
+    if(!data.ok){
+      if(data.full){ regClosed=true; applyClosed(); document.getElementById('modal-signup').scrollTop=0; return; }
+      throw new Error(data.error||'送出失敗');
+    }
     form.style.display='none'; document.getElementById('done').style.display='block';
     document.getElementById('modal-signup').scrollTop=0;
   }catch(err){ ferr(err.message||'送出失敗，請稍後再試'); sbtn.disabled=false; sbtn.textContent='送出報名及點餐'; }
@@ -486,6 +496,29 @@ if(new URLSearchParams(location.search).get('admin')===ADMIN_TOKEN){
   document.getElementById('guestHint').style.display='none';
   document.getElementById('exportBtn').href='/api/export?key='+encodeURIComponent(ADMIN_TOKEN);
 }
+
+/* ---------- 報名人數 / 額滿狀態 ---------- */
+let regClosed=false;
+function applyClosed(){
+  const cta=document.querySelector('.cta');
+  if(regClosed){
+    cta.innerHTML='🈵 報名已額滿'; cta.style.background='#b9ad98'; cta.style.boxShadow='none';
+    const form=document.getElementById('form'); if(form) form.style.display='none';
+    document.getElementById('done').style.display='none';
+    document.getElementById('closed').style.display='block';
+  }
+}
+async function refreshStatus(){
+  try{
+    const s=await (await fetch('/api/status',{cache:'no-store'})).json();
+    if(!s.ok) return;
+    regClosed=s.full;
+    const cap=document.getElementById('capNote');
+    if(cap) cap.textContent=`目前報名 ${s.count} / ${s.cap} 人`+(s.full?'　🈵 已額滿':`　（尚餘 ${s.remaining} 位）`);
+    applyClosed();
+  }catch(e){}
+}
+refreshStatus();
 
 /* ---------- 動態聖經金句（輪播） ---------- */
 const VERSES=[

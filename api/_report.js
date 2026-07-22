@@ -1,0 +1,63 @@
+import ExcelJS from "exceljs";
+
+export const CAP = Number(process.env.REG_CAP || 85);        // 報名人數上限
+export const MILESTONES = [50, 60, 70, 80];                   // 提醒門檻
+
+function tw(ts) {
+  if (!ts) return "";
+  try { return new Date(ts).toLocaleString("zh-TW", { timeZone: "Asia/Taipei", hour12: false }); }
+  catch { return String(ts); }
+}
+
+// 讀取所有報名者
+export async function collectRegistrations(db) {
+  const snap = await db.collection("registrations").get();
+  return snap.docs.map((d) => d.data() || {});
+}
+
+// 統計：總人數、餐點、部門、是否爸爸、參加方式
+export function summarize(rows) {
+  const lunch = {}, dept = {}, mode = { 實體: 0, 線上: 0 };
+  let fatherYes = 0, fatherNo = 0;
+  for (const r of rows) {
+    const l = r.lunch || "(未填)"; lunch[l] = (lunch[l] || 0) + 1;
+    const dp = (r.dept || "").trim() || "(未填)"; dept[dp] = (dept[dp] || 0) + 1;
+    if (r.isFather) fatherYes++; else fatherNo++;
+    mode[r.mode === "線上" ? "線上" : "實體"]++;
+  }
+  return { total: rows.length, lunch, dept, mode, fatherYes, fatherNo };
+}
+
+// 產生「所有報名者」Excel
+export async function buildRegistrantsXlsx(rows) {
+  const sorted = rows.slice().sort((a, b) => String(a.createdAt || "").localeCompare(String(b.createdAt || "")));
+  const wb = new ExcelJS.Workbook();
+  wb.creator = "飛揚社父親節報名系統";
+  const ws = wb.addWorksheet("報名名單");
+  ws.columns = [
+    { header: "序", key: "idx", width: 5 },
+    { header: "姓名", key: "name", width: 14 },
+    { header: "部門", key: "dept", width: 18 },
+    { header: "Email", key: "email", width: 28 },
+    { header: "參加方式", key: "mode", width: 10 },
+    { header: "午餐便當", key: "lunch", width: 10 },
+    { header: "是否爸爸", key: "father", width: 10 },
+    { header: "想說的一句話", key: "message", width: 34 },
+    { header: "報名時間", key: "createdAt", width: 22 },
+  ];
+  ws.getRow(1).font = { bold: true };
+  ws.getRow(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE6F4EC" } };
+  sorted.forEach((r, i) => ws.addRow({
+    idx: i + 1,
+    name: r.name || "",
+    dept: r.dept || "",
+    email: r.email || "",
+    mode: r.mode === "線上" ? "線上" : "實體",
+    lunch: r.lunch || "",
+    father: r.isFather ? "是" : "否",
+    message: r.message || "",
+    createdAt: tw(r.createdAt),
+  }));
+  ws.autoFilter = { from: "A1", to: "I1" };
+  return await wb.xlsx.writeBuffer();
+}
