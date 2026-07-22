@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飛揚社 2026 父親節特別活動｜摸彩抽獎</title>
+<style>
+  :root{
+    --bg:#fdf6ec; --card:#ffffff; --ink:#3a4e60; --brown:#5b4636;
+    --apri:#d98a4e; --blue:#4a6b86; --green:#6f8f6a; --line:#e7ddca;
+    --shadow:0 6px 22px rgba(90,70,54,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Microsoft JhengHei","微軟正黑體","PingFang TC",sans-serif;
+       background:linear-gradient(160deg,#fdf6ec,#f6ecdd);color:var(--ink);}
+  header{text-align:center;padding:22px 16px 8px}
+  header h1{margin:0;font-size:26px;color:var(--brown)}
+  header .sub{color:var(--apri);font-weight:bold;margin-top:4px;font-size:15px}
+  header .nav{margin-top:8px;font-size:13px}
+  header .nav a{color:var(--blue)}
+  .wrap{max-width:1080px;margin:0 auto;padding:12px 16px 60px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+        padding:18px;box-shadow:var(--shadow)}
+  .card h2{margin:0 0 10px;font-size:18px;color:var(--blue);display:flex;align-items:center;gap:8px}
+  textarea{width:100%;height:150px;border:1px solid var(--line);border-radius:10px;
+           padding:10px;font-family:inherit;font-size:14px;resize:vertical;background:#fffdf8}
+  .hint{font-size:12.5px;color:#9b8d78;line-height:1.7;margin:8px 0}
+  .btn{border:none;border-radius:10px;padding:9px 16px;font-size:14px;font-weight:bold;
+       cursor:pointer;font-family:inherit;transition:.15s;color:#fff}
+  .btn:active{transform:translateY(1px)}
+  .btn-apri{background:var(--apri)} .btn-blue{background:var(--blue)}
+  .btn-green{background:var(--green)} .btn-grey{background:#b9ad98}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .stats{font-size:13px;color:var(--brown);margin-top:10px}
+  .stats b{color:var(--apri)}
+  .stage{grid-column:1/-1;text-align:center;padding:26px 18px}
+  .prize-name{font-size:20px;color:var(--brown);font-weight:bold;min-height:26px}
+  .rolling{font-size:64px;font-weight:900;color:var(--blue);letter-spacing:4px;
+           min-height:88px;display:flex;align-items:center;justify-content:center;
+           flex-wrap:wrap;gap:18px;margin:6px 0}
+  .rolling .win{color:var(--apri);animation:pop .4s ease}
+  @keyframes pop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+  .prizebar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px}
+  .pchip{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fffdf8;
+         min-width:150px;text-align:center}
+  .pchip .t{font-weight:bold;color:var(--ink);font-size:14px}
+  .pchip .m{font-size:12px;color:#9b8d78;margin:3px 0 7px}
+  .pchip.done{background:#f1f6ef;border-color:#cfe0c8}
+  .pchip .w{font-size:13px;color:var(--apri);font-weight:bold;line-height:1.6}
+  #results .pr{border-bottom:1px dashed var(--line);padding:9px 0}
+  #results .pr:last-child{border-bottom:none}
+  #results .pr .h{font-weight:bold;color:var(--blue)}
+  #results .pr .n{color:var(--brown)}
+  .foot{text-align:center;color:#a99c86;font-size:12px;margin-top:26px}
+  .count{width:52px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:5px;font-family:inherit}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎁 飛揚社 2026 父親節特別活動</h1>
+  <div class="sub">會後摸彩抽獎程式</div>
+  <div class="nav"><a href="./index.html">← 回報名頁</a></div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- 名單 -->
+    <div class="card">
+      <h2>① 匯入摸彩名單</h2>
+      <div class="row" style="margin-bottom:10px">
+        <button class="btn btn-apri" onclick="loadFromDB()" id="dbBtn">☁️ 從報名資料庫載入</button>
+        <span class="hint" id="dbStatus" style="margin:0"></span>
+      </div>
+      <textarea id="input" placeholder="每行一位，格式：姓名,身分,是否爸爸
+範例：
+王小明,實體,是
+陳美惠,線上,否
+李大同,實體
+（身分不填預設「實體」；爸爸不填預設「否」）"></textarea>
+      <div class="hint">
+        • 首選：按上方「從報名資料庫載入」，直接讀 Filebase 上的線上報名名單。<br>
+        • 備援：可從 Google 表單試算表複製「姓名／身分／是否爸爸」三欄貼上（逗號或 Tab 皆可），再按「載入名單」。<br>
+        • 系統自動辨識關鍵字：含「線上」歸線上、含「實體/現場」歸實體；含「是/爸/Y」視為爸爸。
+      </div>
+      <div class="row">
+        <button class="btn btn-blue" onclick="loadList()">載入貼上的名單</button>
+        <button class="btn btn-grey" onclick="loadDemo()">載入示範名單</button>
+        <button class="btn btn-grey" onclick="clearAll()">清空</button>
+      </div>
+      <div class="stats" id="stats">尚未載入名單。</div>
+    </div>
+
+    <!-- 獎項設定 -->
+    <div class="card">
+      <h2>② 獎項與名額</h2>
+      <div id="prizeCfg"></div>
+      <div class="hint">名額可依現場人數調整；「已中獎者不重複抽出」預設開啟。</div>
+      <label class="row" style="font-size:13px;color:var(--brown)">
+        <input type="checkbox" id="noRepeat" checked> 已中獎者不再被抽中
+      </label>
+    </div>
+
+    <!-- 抽獎舞台 -->
+    <div class="card stage">
+      <div class="prize-name" id="stagePrize">請選擇下方獎項開始抽獎</div>
+      <div class="rolling" id="roll">—</div>
+      <div class="prizebar" id="prizeBtns"></div>
+    </div>
+
+    <!-- 結果 -->
+    <div class="card" style="grid-column:1/-1">
+      <h2>③ 中獎結果</h2>
+      <div id="results"><div class="hint">尚無中獎紀錄。</div></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn btn-green" onclick="exportTxt()">下載結果 (.txt)</button>
+        <button class="btn btn-grey" onclick="resetDraws()">重置抽獎（保留名單）</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="foot">報名資料庫：Filebase｜飛揚社父親節特別活動</div>
+</div>
+
+<script>
+const PRIZES = [
+  {id:'p1', name:'普天同慶獎', pool:'all',    count:3, cls:'btn-apri'},
+  {id:'p2', name:'爸爸萬歲獎', pool:'father', count:1, cls:'btn-blue'},
+  {id:'p3', name:'線上專屬獎', pool:'online', count:1, cls:'btn-green'},
+  {id:'p4', name:'會後驚喜獎（實體）', pool:'onsite', count:4, cls:'btn-apri'},
+  {id:'p5', name:'會後驚喜獎（線上）', pool:'online', count:1, cls:'btn-green'},
+];
+const POOL_LABEL={all:'全部',father:'現場爸爸',online:'線上',onsite:'實體'};
+
+let people=[];
+let winners={};
+PRIZES.forEach(p=>winners[p.id]=[]);
+
+function parseField(s){return (s||'').trim();}
+
+async function loadFromDB(){
+  const btn=document.getElementById('dbBtn'), st=document.getElementById('dbStatus');
+  btn.disabled=true; st.textContent='讀取中…';
+  try{
+    const r=await fetch('/api/registrations',{cache:'no-store'});
+    const data=await r.json();
+    if(!r.ok||!data.ok) throw new Error(data.error||'讀取失敗');
+    if(!data.people.length){ st.textContent='資料庫目前沒有報名資料。'; btn.disabled=false; return; }
+    people=data.people.map(p=>({name:p.name, side: p.mode==='線上'?'online':'onsite', father: !!p.isFather}));
+    // 同步回填 textarea，方便檢視／匯出
+    document.getElementById('input').value=people.map(p=>`${p.name},${p.side==='online'?'線上':'實體'},${p.father?'是':'否'}`).join('\n');
+    winners={};PRIZES.forEach(p=>winners[p.id]=[]);
+    renderStats();renderPrizeCfg();renderPrizeBtns();renderResults();
+    document.getElementById('roll').textContent='—';
+    document.getElementById('stagePrize').textContent='已從報名資料庫載入，請選擇獎項開始抽獎';
+    st.textContent=`✅ 已載入 ${people.length} 位報名者`;
+  }catch(err){
+    st.textContent='⚠️ '+(err.message||'讀取失敗，改用貼上名單');
+  }finally{ btn.disabled=false; }
+}
+
+function loadList(){
+  const raw=document.getElementById('input').value.trim();
+  if(!raw){alert('請先貼上名單，或按「從報名資料庫載入」');return;}
+  people=[];
+  raw.split(/\r?\n/).forEach(line=>{
+    if(!line.trim())return;
+    const parts=line.split(/[,\t，]/).map(parseField).filter(x=>x!=='');
+    if(!parts.length)return;
+    const name=parts[0];
+    const rest=parts.slice(1).join(' ');
+    const online=/線上|online/i.test(rest);
+    const father=/是|爸|father|\bY\b/i.test(rest);
+    people.push({name, side: online?'online':'onsite', father});
+  });
+  winners={};PRIZES.forEach(p=>winners[p.id]=[]);
+  renderStats();renderPrizeCfg();renderPrizeBtns();renderResults();
+  document.getElementById('roll').textContent='—';
+  document.getElementById('stagePrize').textContent='名單已載入，請選擇獎項開始抽獎';
+}
+function loadDemo(){
+  document.getElementById('input').value=
+`王聰貴,實體,是
+張平興,實體,是
+黃學美,實體,否
+何莉芳,實體,否
+謝承憲,實體,是
+吳淑惠,線上,否
+方可欣,線上,否
+楊衛嫻,實體,否
+邱文峰,實體,是
+陳惠珍,線上,否
+陳姿菁,實體,否
+郭靜雯,線上,否
+戴豐源,實體,是
+林瑀彤,線上,否`;
+  loadList();
+}
+function clearAll(){document.getElementById('input').value='';people=[];winners={};PRIZES.forEach(p=>winners[p.id]=[]);renderStats();renderPrizeCfg();renderPrizeBtns();renderResults();document.getElementById('roll').textContent='—';document.getElementById('stagePrize').textContent='請選擇下方獎項開始抽獎';document.getElementById('dbStatus').textContent='';}
+
+function renderStats(){
+  const t=people.length, on=people.filter(p=>p.side=='onsite').length,
+        ol=people.filter(p=>p.side=='online').length, fa=people.filter(p=>p.father).length;
+  document.getElementById('stats').innerHTML=
+    `已載入 <b>${t}</b> 人　｜　實體 <b>${on}</b>　線上 <b>${ol}</b>　現場爸爸 <b>${fa}</b>`;
+}
+function renderPrizeCfg(){
+  document.getElementById('prizeCfg').innerHTML=PRIZES.map(p=>
+    `<div class="row" style="justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line)">
+       <span>${p.name} <span style="color:#9b8d78;font-size:12px">（抽池：${POOL_LABEL[p.pool]}）</span></span>
+       <span>名額 <input class="count" type="number" min="0" value="${p.count}" onchange="PRIZES.find(x=>x.id=='${p.id}').count=+this.value;renderPrizeBtns()"></span>
+     </div>`).join('');
+}
+function eligible(pool){
+  const won = document.getElementById('noRepeat').checked
+      ? new Set(Object.values(winners).flat()) : new Set();
+  return people.filter(p=>{
+    if(won.has(p.name))return false;
+    if(pool=='all')return true;
+    if(pool=='father')return p.father;
+    if(pool=='online')return p.side=='online';
+    if(pool=='onsite')return p.side=='onsite';
+  });
+}
+function renderPrizeBtns(){
+  document.getElementById('prizeBtns').innerHTML=PRIZES.map(p=>{
+    const done=winners[p.id].length>0;
+    const winTxt=done?`<div class="w">🎉 ${winners[p.id].join('、')}</div>`:'';
+    return `<div class="pchip ${done?'done':''}">
+      <div class="t">${p.name}</div>
+      <div class="m">名額 ${p.count}・抽池 ${POOL_LABEL[p.pool]}</div>
+      <button class="btn ${p.cls}" onclick="draw('${p.id}')">${done?'重抽':'開始抽獎'}</button>
+      ${winTxt}
+    </div>`;
+  }).join('');
+}
+
+let rolling=null;
+function draw(pid){
+  const p=PRIZES.find(x=>x.id==pid);
+  if(!people.length){alert('請先載入名單');return;}
+  if(p.count<=0){alert('名額為 0');return;}
+  winners[pid]=[];
+  const pool=eligible(p.pool);
+  if(pool.length<p.count){
+    if(!confirm(`可抽人數（${pool.length}）少於名額（${p.count}），要抽出全部 ${pool.length} 位嗎？`)){return;}
+  }
+  const n=Math.min(p.count,pool.length);
+  if(n===0){alert('此抽池沒有可抽的人');return;}
+  document.getElementById('stagePrize').textContent=`正在抽出：${p.name}（${n} 名）`;
+  const rollEl=document.getElementById('roll');
+  clearInterval(rolling);
+  let ticks=0;
+  rolling=setInterval(()=>{
+    const s=[];for(let i=0;i<n;i++){s.push(pool[Math.floor(Math.random()*pool.length)].name);}
+    rollEl.textContent=s.join('　');
+    if(++ticks>22){
+      clearInterval(rolling);
+      const pick=[];const bag=pool.slice();
+      for(let i=0;i<n;i++){const idx=Math.floor(Math.random()*bag.length);pick.push(bag[idx].name);bag.splice(idx,1);}
+      winners[pid]=pick;
+      rollEl.innerHTML=pick.map(w=>`<span class="win">${w}</span>`).join('　');
+      document.getElementById('stagePrize').textContent=`🎉 ${p.name} 中獎名單`;
+      renderPrizeBtns();renderResults();
+    }
+  },70);
+}
+function renderResults(){
+  const any=Object.values(winners).some(a=>a.length);
+  if(!any){document.getElementById('results').innerHTML='<div class="hint">尚無中獎紀錄。</div>';return;}
+  document.getElementById('results').innerHTML=PRIZES.map(p=>
+    winners[p.id].length?`<div class="pr"><span class="h">${p.name}（${winners[p.id].length}名）：</span><span class="n">${winners[p.id].join('、')}</span></div>`:''
+  ).join('');
+}
+function exportTxt(){
+  let t=`飛揚社 2026 父親節特別活動 摸彩中獎名單\n產生時間：${new Date().toLocaleString('zh-TW')}\n\n`;
+  PRIZES.forEach(p=>{if(winners[p.id].length)t+=`【${p.name}】${winners[p.id].join('、')}\n`;});
+  const blob=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='摸彩中獎名單.txt';a.click();
+}
+function resetDraws(){if(confirm('確定重置所有抽獎結果？名單保留。')){winners={};PRIZES.forEach(p=>winners[p.id]=[]);renderPrizeBtns();renderResults();document.getElementById('roll').textContent='—';document.getElementById('stagePrize').textContent='已重置，請重新抽獎';}}
+
+renderPrizeCfg();renderPrizeBtns();renderResults();
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飛揚社 2026 父親節特別活動｜報名</title>
+<meta name="description" content="飛揚社 2026 父親節特別活動報名 — 8/7（五）華光廳，講員戴豐源博士《沙灘上的雙重腳印》，報名即參加摸彩。">
+<style>
+  :root{
+    --bg:#fdf6ec; --card:#ffffff; --ink:#3a4e60; --brown:#5b4636;
+    --apri:#d98a4e; --blue:#4a6b86; --green:#6f8f6a; --line:#e7ddca;
+    --muted:#9b8d78; --shadow:0 6px 22px rgba(90,70,54,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Microsoft JhengHei","微軟正黑體","PingFang TC",sans-serif;
+       background:linear-gradient(160deg,#fdf6ec,#f6ecdd);color:var(--ink);line-height:1.7}
+  a{color:var(--blue)}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px 64px}
+
+  /* HERO */
+  .hero{text-align:center;padding:40px 16px 24px}
+  .hero .badge{display:inline-block;background:var(--apri);color:#fff;font-weight:bold;
+       font-size:13px;padding:5px 14px;border-radius:999px;letter-spacing:1px}
+  .hero h1{margin:14px 0 6px;font-size:30px;color:var(--brown);line-height:1.35}
+  .hero .theme{color:var(--apri);font-weight:bold;font-size:17px;margin-top:4px}
+  .hero .meta{color:var(--muted);font-size:15px;margin-top:12px}
+  .hero .meta b{color:var(--brown)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+        padding:22px;box-shadow:var(--shadow);margin-top:18px}
+  .card h2{margin:0 0 4px;font-size:19px;color:var(--blue);display:flex;align-items:center;gap:8px}
+  .card .sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+
+  /* SPEAKER */
+  .speaker{display:flex;gap:14px;align-items:flex-start}
+  .speaker .ava{flex:0 0 54px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--apri),var(--brown));
+       color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px}
+  .speaker .who b{color:var(--brown);font-size:16px}
+  .speaker .who .role{color:var(--muted);font-size:13.5px;margin-top:3px}
+
+  /* TIMELINE */
+  .tl{position:relative;margin:6px 0 0;padding-left:8px}
+  .tl .item{display:flex;gap:14px;padding:9px 0}
+  .tl .t{flex:0 0 118px;text-align:right;color:var(--apri);font-weight:bold;font-size:13.5px;padding-top:2px}
+  .tl .dot{flex:0 0 12px;position:relative}
+  .tl .dot::before{content:"";position:absolute;left:3px;top:6px;width:9px;height:9px;border-radius:50%;
+       background:var(--apri);box-shadow:0 0 0 3px #fbe6d3}
+  .tl .item:not(:last-child) .dot::after{content:"";position:absolute;left:7px;top:14px;bottom:-14px;width:2px;background:var(--line)}
+  .tl .c .n{font-weight:bold;color:var(--ink);font-size:14.5px}
+  .tl .c .d{color:var(--muted);font-size:12.5px}
+
+  /* VERSE */
+  .verse{background:linear-gradient(135deg,#fff8ef,#fdeeda);text-align:center}
+  .verse .cross{font-size:26px}
+  .verse p{font-size:16.5px;color:var(--brown);font-style:italic;margin:10px 20px}
+  .verse .ref{color:var(--apri);font-weight:bold;font-size:14px}
+
+  /* FORM */
+  label.f{display:block;margin:14px 0 6px;font-weight:bold;color:var(--brown);font-size:14.5px}
+  label.f .req{color:var(--apri)}
+  input[type=text],input[type=email],textarea,select{
+    width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 13px;
+    font-family:inherit;font-size:15px;background:#fffdf8;color:var(--ink)}
+  textarea{resize:vertical;min-height:74px}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--apri);background:#fff}
+  .opts{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .opt{flex:1;min-width:120px}
+  .opt input{position:absolute;opacity:0;pointer-events:none}
+  .opt span{display:block;text-align:center;border:1.5px solid var(--line);border-radius:11px;
+       padding:11px 8px;cursor:pointer;background:#fffdf8;font-size:14.5px;transition:.15s}
+  .opt input:checked + span{border-color:var(--apri);background:#fbe6d3;color:var(--brown);font-weight:bold}
+  .hint{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+  .btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:bold;
+       cursor:pointer;font-family:inherit;color:#fff;background:var(--apri);width:100%;margin-top:22px;
+       transition:.15s;box-shadow:0 6px 16px rgba(217,138,78,.35)}
+  .btn:active{transform:translateY(1px)}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  #msg{margin-top:14px;font-size:14px;text-align:center;min-height:20px}
+  #msg.err{color:#c0563c;font-weight:bold}
+  #msg.ok{color:var(--green);font-weight:bold}
+
+  /* SUCCESS */
+  .done{display:none;text-align:center;padding:14px 6px}
+  .done .big{font-size:52px}
+  .done h2{color:var(--brown);justify-content:center}
+  .done p{color:var(--ink);font-size:15px}
+  .done .lot{display:inline-block;margin-top:10px;background:var(--blue);color:#fff;text-decoration:none;
+       padding:10px 20px;border-radius:11px;font-weight:bold;font-size:14.5px}
+
+  /* GUIDELINES */
+  .gl{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:560px){.gl{grid-template-columns:1fr}}
+  .gl .g{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fffdf8}
+  .gl .g .gt{font-weight:bold;color:var(--brown);font-size:14px}
+  .gl .g .gd{color:var(--muted);font-size:12.5px;margin-top:3px}
+
+  .foot{text-align:center;color:#a99c86;font-size:12.5px;margin-top:30px;line-height:1.9}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="badge">CECI 台灣世曦 · 飛揚社</span>
+  <h1>2026 父親節特別活動</h1>
+  <div class="theme">《沙灘上的雙重腳印》</div>
+  <div class="meta">🗓️ <b>8/7（五）12:00–13:00</b>　📍 <b>華光廳</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- 講員 -->
+  <div class="card">
+    <div class="speaker">
+      <div class="ava">🎤</div>
+      <div class="who">
+        <b>講員｜戴豐源博士（Frank）</b>
+        <div class="role">前科技公司 CTO・拍立得高級工程師・東京大學工學博士。分享跨台日美中的職場歷練，以及父親與信仰交織的生命故事。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 流程 -->
+  <div class="card">
+    <h2>🕛 活動流程</h2>
+    <p class="sub">一小時，暖心相聚</p>
+    <div class="tl">
+      <div class="item"><div class="t">12:00–12:05</div><div class="dot"></div><div class="c"><div class="n">報到、入席</div><div class="d">背景音樂迎賓</div></div></div>
+      <div class="item"><div class="t">12:05–12:10</div><div class="dot"></div><div class="c"><div class="n">開場・破冰</div><div class="d">摸彩玩法說明</div></div></div>
+      <div class="item"><div class="t">12:10–12:55</div><div class="dot"></div><div class="c"><div class="n">講員分享</div><div class="d">戴豐源博士＋萍姐時間</div></div></div>
+      <div class="item"><div class="t">12:55–12:58</div><div class="dot"></div><div class="c"><div class="n">摸彩通關</div><div class="d">大螢幕 QR Code 填答</div></div></div>
+      <div class="item"><div class="t">12:58–13:00</div><div class="dot"></div><div class="c"><div class="n">祝福禱告</div><div class="d">視情況 QA</div></div></div>
+      <div class="item"><div class="t">會後</div><div class="dot"></div><div class="c"><div class="n">驚喜摸彩</div><div class="d">實體 4 名・線上 1 名</div></div></div>
+    </div>
+  </div>
+
+  <!-- 經文 -->
+  <div class="card verse">
+    <div class="cross">✝️</div>
+    <p>「你當剛強壯膽…因為耶和華你的神必與你同去；他必不撇下你，也不丟棄你。」</p>
+    <div class="ref">— 申命記 31:8</div>
+  </div>
+
+  <!-- 報名表單 -->
+  <div class="card" id="formCard">
+    <h2>📝 活動報名</h2>
+    <p class="sub">填寫即完成報名，並自動成為<b style="color:var(--apri)">摸彩參加名單</b>。</p>
+    <form id="form" novalidate>
+      <label class="f">姓名 <span class="req">*</span></label>
+      <input type="text" id="name" autocomplete="name" placeholder="您的姓名" required>
+
+      <label class="f">部門</label>
+      <input type="text" id="dept" placeholder="所屬部門／單位">
+
+      <label class="f">公司 Email <span class="req">*</span></label>
+      <input type="email" id="email" autocomplete="email" placeholder="name@ceci.com.tw" required>
+      <p class="hint">同一 Email 重複報名視為更新資料。</p>
+
+      <label class="f">參加方式 <span class="req">*</span></label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="mode" value="實體" checked><span>🏢 實體出席</span></label>
+        <label class="opt"><input type="radio" name="mode" value="線上"><span>💻 線上參加</span></label>
+      </div>
+
+      <label class="f">午餐便當</label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="lunch" value="葷" checked><span>🍱 葷食</span></label>
+        <label class="opt"><input type="radio" name="lunch" value="素"><span>🥗 素食</span></label>
+        <label class="opt"><input type="radio" name="lunch" value="不用"><span>🚫 不用</span></label>
+      </div>
+
+      <label class="f">我是爸爸</label>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="father" value="否" checked><span>否</span></label>
+        <label class="opt"><input type="radio" name="father" value="是"><span>👨 是（爸爸萬歲獎抽池）</span></label>
+      </div>
+
+      <label class="f">想對爸爸／家人說的一句話</label>
+      <textarea id="message" maxlength="200" placeholder="（選填）一句祝福或感謝的話"></textarea>
+
+      <button type="submit" class="btn" id="submit">送出報名</button>
+      <div id="msg"></div>
+    </form>
+
+    <div class="done" id="done">
+      <div class="big">🎉</div>
+      <h2>報名成功！</h2>
+      <p>已收到您的報名，並列入摸彩名單。<br>8/7（五）華光廳見！</p>
+      <a class="lot" href="./lottery.html">前往會後摸彩頁 →</a>
+    </div>
+  </div>
+
+  <!-- 摸彩說明 -->
+  <div class="card">
+    <h2>🎁 摸彩獎項</h2>
+    <p class="sub">報名者皆為摸彩來源，現場通關填答即可參加。</p>
+    <div class="gl">
+      <div class="g"><div class="gt">普天同慶獎 ×3</div><div class="gd">所有完成通關的與會者</div></div>
+      <div class="g"><div class="gt">爸爸萬歲獎 ×1</div><div class="gd">現場具父親身份的同仁</div></div>
+      <div class="g"><div class="gt">線上專屬獎 ×1</div><div class="gd">線上填寫通關的同仁</div></div>
+      <div class="g"><div class="gt">會後驚喜摸彩</div><div class="gd">實體 4 名・線上 1 名</div></div>
+    </div>
+  </div>
+
+  <!-- 須知 -->
+  <div class="card">
+    <h2>📌 溫馨提醒</h2>
+    <div class="gl">
+      <div class="g"><div class="gt">準時入席</div><div class="gd">12:00 開始報到，敬請準時。</div></div>
+      <div class="g"><div class="gt">午餐預訂</div><div class="gd">依報名葷素統計訂餐，請據實填寫。</div></div>
+      <div class="g"><div class="gt">認真聆聽</div><div class="gd">摸彩通關題與講員分享有關。</div></div>
+      <div class="g"><div class="gt">邀請同工</div><div class="gd">歡迎轉發此報名連結給更多同仁。</div></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    飛揚社 · CECI 台灣世曦基督徒團契<br>
+    2026 父親節特別活動 · 願天父的愛與您同在
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('form');
+const msg = document.getElementById('msg');
+const btn = document.getElementById('submit');
+
+function radio(name){ const el = form.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  msg.className=''; msg.textContent='';
+  const payload = {
+    name: document.getElementById('name').value.trim(),
+    dept: document.getElementById('dept').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    mode: radio('mode'),
+    lunch: radio('lunch'),
+    isFather: radio('father') === '是',
+    message: document.getElementById('message').value.trim(),
+  };
+  if(!payload.name){ return fail('請填寫姓名'); }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)){ return fail('請填寫正確的公司 Email'); }
+
+  btn.disabled=true; btn.textContent='送出中…';
+  try{
+    const r = await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const data = await r.json();
+    if(!r.ok || !data.ok){ throw new Error(data.error || '送出失敗'); }
+    document.getElementById('form').style.display='none';
+    document.getElementById('done').style.display='block';
+    document.getElementById('formCard').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(err){
+    fail(err.message || '送出失敗，請稍後再試');
+    btn.disabled=false; btn.textContent='送出報名';
+  }
+});
+
+function fail(t){ msg.className='err'; msg.textContent='⚠️ '+t; btn.disabled=false; btn.textContent='送出報名'; }
+</script>
+</body>
+</html>
