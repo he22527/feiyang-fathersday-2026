@@ -8,3 +8,8 @@ node_modules/
 
 .vercel
 .env*
+
+# Firebase 服務帳戶私鑰，絕不進 git
+sa.json
+service-account*.json
+*firebase-adminsdk*.json
