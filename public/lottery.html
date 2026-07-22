@@ -72,7 +72,7 @@
     <div class="card">
       <h2>① 匯入摸彩名單</h2>
       <div class="row" style="margin-bottom:10px">
-        <button class="btn btn-apri" onclick="loadFromDB()" id="dbBtn">☁️ 從報名資料庫載入</button>
+        <button class="btn btn-apri" onclick="loadFromDB()" id="dbBtn">☁️ 從通關名單載入</button>
         <span class="hint" id="dbStatus" style="margin:0"></span>
       </div>
       <textarea id="input" placeholder="每行一位，格式：姓名,身分,是否爸爸
@@ -145,10 +145,10 @@ async function loadFromDB(){
   const btn=document.getElementById('dbBtn'), st=document.getElementById('dbStatus');
   btn.disabled=true; st.textContent='讀取中…';
   try{
-    const r=await fetch('/api/registrations',{cache:'no-store'});
+    const r=await fetch('/api/eligible',{cache:'no-store'});
     const data=await r.json();
     if(!r.ok||!data.ok) throw new Error(data.error||'讀取失敗');
-    if(!data.people.length){ st.textContent='資料庫目前沒有報名資料。'; btn.disabled=false; return; }
+    if(!data.people.length){ st.textContent='目前沒有人通關，無法載入。'; btn.disabled=false; return; }
     people=data.people.map(p=>({name:p.name, side: p.mode==='線上'?'online':'onsite', father: !!p.isFather}));
     // 同步回填 textarea，方便檢視／匯出
     document.getElementById('input').value=people.map(p=>`${p.name},${p.side==='online'?'線上':'實體'},${p.father?'是':'否'}`).join('\n');
@@ -156,7 +156,7 @@ async function loadFromDB(){
     renderStats();renderPrizeCfg();renderPrizeBtns();renderResults();
     document.getElementById('roll').textContent='—';
     document.getElementById('stagePrize').textContent='已從報名資料庫載入，請選擇獎項開始抽獎';
-    st.textContent=`✅ 已載入 ${people.length} 位報名者`;
+    st.textContent=`✅ 已載入 ${people.length} 位通關者`;
   }catch(err){
     st.textContent='⚠️ '+(err.message||'讀取失敗，改用貼上名單');
   }finally{ btn.disabled=false; }
