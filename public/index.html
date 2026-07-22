@@ -228,6 +228,7 @@
         <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
           <button class="btn" id="drawBtn" onclick="startDraw()">🎲 開始抽獎</button>
           <button class="btn sm" onclick="loadWinners()">重新整理結果</button>
+          <a class="btn sm" id="exportBtn" href="#" style="text-decoration:none;display:inline-block">⬇️ 下載通關名單 Excel</a>
         </div>
         <div id="eligibleInfo" class="drawn-at"></div>
       </div>
@@ -403,6 +404,7 @@ const ADMIN_TOKEN='feiyang2026';  // 主持人網址：/?admin=feiyang2026 （�
 if(new URLSearchParams(location.search).get('admin')===ADMIN_TOKEN){
   document.getElementById('adminDraw').style.display='block';
   document.getElementById('guestHint').style.display='none';
+  document.getElementById('exportBtn').href='/api/export?key='+encodeURIComponent(ADMIN_TOKEN);
 }
 </script>
 </body>

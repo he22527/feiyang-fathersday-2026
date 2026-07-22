@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "exceljs": "^4.4.0",
     "firebase-admin": "^13.0.2",
     "nodemailer": "^6.9.15"
   }
