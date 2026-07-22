@@ -38,7 +38,10 @@
   .q .qopt input:checked + span{border-color:var(--green);background:var(--green-l);color:var(--green-d);font-weight:bold}
   .btn{width:100%;border:none;border-radius:12px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer;
        font-family:inherit;color:#fff;background:var(--green);margin-top:20px;box-shadow:0 8px 20px rgba(58,158,110,.35)}
-  .btn:active{transform:translateY(1px)} .btn:disabled{opacity:.5}
+  .btn:active{transform:translateY(1px)} .btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+  .gate{display:none;margin-top:18px;background:#fff6e9;border:1px solid #f0d9b8;border-radius:12px;
+       padding:13px 14px;text-align:center;color:#a9702f;font-size:14px;font-weight:bold}
+  .gate .cd{font-size:20px;color:var(--brown);margin-top:5px;letter-spacing:1px}
   #msg{margin-top:12px;text-align:center;font-size:14px;min-height:18px}
   #msg.err{color:#c0563c;font-weight:bold}
   .result{display:none;text-align:center;padding:18px 6px}
@@ -80,6 +83,7 @@
 
       <div id="qList"><div class="q"><div class="qn">題目載入中…</div></div></div>
 
+      <div class="gate" id="gate"></div>
       <button type="submit" class="btn" id="submit">送出通關</button>
       <div id="msg"></div>
     </form>
@@ -105,7 +109,32 @@ fetch('/api/quiz').then(r=>r.json()).then(d=>{
       q.options.map((o,j)=>`<label class="qopt"><input type="radio" name="${q.id}" value="${j}"><span>${o}</span></label>`).join('')
     }</div></div>`
   ).join('');
+  setupGate(d.openAt);
 }).catch(()=>{document.getElementById('qList').innerHTML='<div class="q"><div class="qn" style="color:#c0563c">題目載入失敗，請重新整理。</div></div>';});
+
+/* ---- 作答開放時間閘門 ---- */
+let gateTimer=null;
+function setupGate(openAtStr){
+  const openAt=new Date(openAtStr||'2026-08-07T11:30:00+08:00').getTime();
+  const gate=document.getElementById('gate'), submit=document.getElementById('submit');
+  function tick(){
+    const diff=openAt-Date.now();
+    if(diff<=0){
+      clearInterval(gateTimer);
+      gate.style.display='none';
+      submit.disabled=false; submit.textContent='送出通關';
+      return;
+    }
+    submit.disabled=true; submit.textContent='作答尚未開放';
+    gate.style.display='block';
+    const s=Math.floor(diff/1000), d=Math.floor(s/86400), h=Math.floor(s%86400/3600),
+          m=Math.floor(s%3600/60), sec=s%60, p=n=>String(n).padStart(2,'0');
+    gate.innerHTML='⏳ 作答將於 <b>2026/08/07 11:30</b> 開放'+
+      `<div class="cd">${d>0?d+' 天 ':''}${p(h)}:${p(m)}:${p(sec)}</div>`;
+  }
+  tick();
+  gateTimer=setInterval(tick,1000);
+}
 
 const form=document.getElementById('qform'), msg=document.getElementById('msg'), btn=document.getElementById('submit');
 function radio(n){const el=form.querySelector(`input[name="${n}"]:checked`);return el?el.value:'';}

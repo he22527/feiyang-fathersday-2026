@@ -1,10 +1,10 @@
 import { getDb, docIdForEmail } from "./_firestore.js";
-import { publicQuestions, isAllCorrect, LOTTERY_COLLECTION } from "./_quiz.js";
+import { publicQuestions, isAllCorrect, LOTTERY_COLLECTION, QUIZ_OPEN_AT, quizIsOpen } from "./_quiz.js";
 
 export default async function handler(req, res) {
   // GET：回傳題目（不含正解）供前端顯示
   if (req.method === "GET") {
-    return res.status(200).json({ ok: true, questions: publicQuestions() });
+    return res.status(200).json({ ok: true, questions: publicQuestions(), openAt: QUIZ_OPEN_AT, isOpen: quizIsOpen() });
   }
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST");
@@ -12,6 +12,11 @@ export default async function handler(req, res) {
   }
 
   try {
+    // 時間閘門：開放前一律不受理送出
+    if (!quizIsOpen()) {
+      return res.status(403).json({ ok: false, notOpen: true, openAt: QUIZ_OPEN_AT, error: "作答尚未開放，將於 2026/08/07 11:30 開放。" });
+    }
+
     const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
     const name = String(body.name || "").trim();
     const email = String(body.email || "").trim();

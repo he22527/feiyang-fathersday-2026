@@ -15,6 +15,12 @@ export const QUESTIONS = [
   },
 ];
 
+// 作答開放時間（台灣時間 2026/08/07 11:30）；可用環境變數 QUIZ_OPEN_AT 覆蓋。
+export const QUIZ_OPEN_AT = process.env.QUIZ_OPEN_AT || "2026-08-07T11:30:00+08:00";
+export function quizIsOpen() {
+  return Date.now() >= new Date(QUIZ_OPEN_AT).getTime();
+}
+
 // 給前端顯示用（不含正解）
 export function publicQuestions() {
   return QUESTIONS.map(({ id, title, options }) => ({ id, title, options }));
