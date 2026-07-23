@@ -10,6 +10,7 @@
     --green:#3a9e6e; --green-d:#2f7d57; --green-l:#e6f4ec;
     --bg:#fbf6ec; --card:#ffffff; --ink:#3a4e60; --brown:#5b4636;
     --apri:#d98a4e; --line:#e7ddca; --muted:#9b8d78;
+    --ttl-blue:#165783; --ttl-orange:#d97a27; --ttl-ink:#4e3c22;
     --shadow:0 10px 30px rgba(70,90,70,.16); --radius:20px;
   }
   *{box-sizing:border-box}
@@ -23,19 +24,30 @@
         align-items:center;justify-content:center;text-align:center;
         padding:calc(28px + env(safe-area-inset-top)) 18px calc(22px + env(safe-area-inset-bottom));overflow:hidden}
   .hero::before{content:"";position:absolute;inset:0;z-index:-2;
-        background:url('./assets/hero-bg.png') center 55%/cover no-repeat}
+        background:url('./assets/hero-bg.png') center 62%/cover no-repeat}
   .hero::after{content:"";position:absolute;inset:0;z-index:-1;
         background:linear-gradient(180deg,rgba(255,252,244,.30) 0%,rgba(255,252,244,0) 30%,rgba(251,246,236,.6) 100%)}
   .hero-mid{margin:auto 0}
   .datepill{display:inline-block;background:rgba(255,255,255,.74);backdrop-filter:blur(6px);
         color:var(--brown);font-weight:bold;letter-spacing:1.5px;font-size:clamp(13px,3.6vw,16px);
         padding:9px 20px;border-radius:999px;box-shadow:0 4px 14px rgba(90,70,54,.12)}
-  h1.title{margin:18px 0 6px;font-size:clamp(38px,11vw,76px);font-weight:900;color:#2f5d43;
+  h1.title{margin:18px 0 0;font-size:clamp(19px,5.5vw,38px);font-weight:900;
         letter-spacing:3px;line-height:1.15;text-shadow:0 2px 20px rgba(255,255,255,.88),0 1px 2px rgba(255,255,255,.95)}
-  .sub{font-size:clamp(16px,4.4vw,24px);color:#3f6349;font-style:italic;letter-spacing:2px;
+  h1.title .t-blue{color:var(--ttl-blue)}
+  h1.title .t-orange{color:var(--ttl-orange)}
+  .t-divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px auto 8px;max-width:260px}
+  .t-divider i{flex:1;height:1px;background:var(--ttl-ink);opacity:.4}
+  .t-divider span{color:var(--ttl-orange);font-size:18px;line-height:1;text-shadow:0 1px 8px rgba(255,255,255,.9)}
+  .t-line2{font-size:clamp(30px,8.4vw,51px);font-weight:900;color:var(--ttl-ink);letter-spacing:2px;
+        text-shadow:0 2px 16px rgba(255,255,255,.92),0 1px 2px rgba(255,255,255,.95)}
+  .sub{margin-top:14px;font-size:clamp(13px,3.5vw,19px);color:#3f6349;font-style:italic;letter-spacing:2px;
         text-shadow:0 1px 12px rgba(255,255,255,.95)}
-  .theme{margin-top:8px;color:var(--brown);font-size:clamp(12.5px,3.4vw,15px);letter-spacing:.5px;
-        text-shadow:0 1px 10px rgba(255,255,255,.98);padding:0 6px}
+  .speaker-pill{display:inline-flex;align-items:center;gap:10px;margin-top:14px;
+        background:rgba(247,223,169,.88);backdrop-filter:blur(6px);border-radius:999px;
+        padding:7px 20px 7px 7px;box-shadow:0 4px 14px rgba(90,70,54,.14)}
+  .speaker-pill .sp-icon{width:28px;height:28px;border-radius:50%;background:var(--green);
+        color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
+  .speaker-pill .sp-text{color:var(--brown);font-weight:bold;font-size:clamp(13px,3.6vw,15px)}
   .cta{display:inline-flex;align-items:center;gap:8px;margin-top:24px;cursor:pointer;
         background:var(--green);color:#fff;font-size:clamp(17px,4.6vw,20px);font-weight:bold;border:none;
         padding:15px 32px;border-radius:999px;box-shadow:0 10px 24px rgba(58,158,110,.42);transition:.15s}
@@ -177,10 +189,12 @@
 <!-- ===== HERO ===== -->
 <header class="hero">
   <div class="hero-mid">
-    <div class="datepill">2026.08.07（五）12:00–13:00</div>
-    <h1 class="title">沙灘上的雙重腳印</h1>
-    <div class="sub">戴豐源博士 ✕ 萍萍姐分享 · 祝福禮 · 摸彩抽獎</div>
-    <div class="theme">地點：華光廳</div>
+    <div class="datepill">2026.08.07（五）12:00–13:00｜華光廳</div>
+    <h1 class="title"><span class="t-blue">父親節</span><span class="t-orange">特別活動</span></h1>
+    <div class="t-divider"><i></i><span>♥</span><i></i></div>
+    <div class="t-line2">沙灘上的雙重腳印</div>
+    <div class="speaker-pill"><span class="sp-icon">👤</span><span class="sp-text">講員：戴豐源博士 × 萍萍姐（夫妻分享）</span></div>
+    <div class="sub">分享．祝福．摸彩</div>
     <div><button class="cta" onclick="openModal('signup')">🎟️ 立即報名及點餐</button></div>
   </div>
 
