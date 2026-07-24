@@ -13,6 +13,14 @@ export function notifyRecipients() {
   return env ? env.split(",").map((s) => s.trim()).filter(Boolean) : DEFAULT_TO;
 }
 
+// 摸彩通關通知收件人：報名同工 4 位 + 機械部 張平興
+const QUIZ_EXTRA_TO = ["pxin@ceci.com.tw"];
+export function quizNotifyRecipients() {
+  const env = (process.env.QUIZ_NOTIFY_TO || "").trim();
+  if (env) return env.split(",").map((s) => s.trim()).filter(Boolean);
+  return [...notifyRecipients(), ...QUIZ_EXTRA_TO];
+}
+
 // 寄報名通知信。缺少寄信環境變數時回傳 false（不擋報名流程）。
 // extra = { stats, xlsxBuffer, milestone, full, cap }
 export async function sendRegistrationMail(record, extra = {}) {
@@ -96,4 +104,66 @@ export async function sendRegistrationMail(record, extra = {}) {
 
 function esc(s) {
   return String(s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+// 寄摸彩通關成功通知信給同工。extra = { stats, xlsxBuffer }
+export async function sendQuizPassMail(entry, extra = {}) {
+  const user = process.env.GMAIL_USER;
+  const pass = process.env.GMAIL_APP_PASSWORD;
+  if (!user || !pass) {
+    console.warn("未設定 GMAIL_USER / GMAIL_APP_PASSWORD，略過寄信");
+    return false;
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: { user, pass },
+  });
+
+  const { stats, xlsxBuffer } = extra;
+  const father = entry.isFather ? "是 👨" : "否";
+
+  let statsHtml = "";
+  if (stats) {
+    statsHtml = `
+      <h3 style="color:#2f7d57;margin:18px 0 6px">📊 目前摸彩通關統計</h3>
+      <table style="border-collapse:collapse;font-size:15px">
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">符合抽獎資格人數</td><td><b style="font-size:18px;color:#2f7d57">${stats.total}</b> 人</td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">其中為爸爸</td><td><b>${stats.fatherYes}</b> 人</td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">參加方式</td><td>實體 <b>${stats.mode.實體}</b>　線上 <b>${stats.mode.線上}</b></td></tr>
+      </table>`;
+  }
+
+  const html = `
+    <div style="font-family:'Microsoft JhengHei',Arial,sans-serif;color:#3a4e60;line-height:1.8">
+      <h2 style="color:#5b4636;margin:0 0 8px">🎟️ 父親節活動－摸彩通關成功通知</h2>
+      <p style="color:#9b8d78;margin:0 0 14px">飛揚社 2026 父親節特別活動</p>
+      <table style="border-collapse:collapse;font-size:15px">
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">姓名</td><td><b>${esc(entry.name)}</b></td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">Email</td><td>${esc(entry.email)}</td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">參加方式</td><td>${esc(entry.mode)}</td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">我是爸爸</td><td>${father}</td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">通關時間</td><td>${new Date(entry.passedAt).toLocaleString("zh-TW", { timeZone: "Asia/Taipei" })}</td></tr>
+      </table>
+      ${statsHtml}
+      <p style="color:#a99c86;font-size:12px;margin-top:18px">附件為目前所有摸彩通關成功者的 Excel 名單。本信由摸彩通關系統自動寄出。</p>
+    </div>`;
+
+  const attachments = [];
+  if (xlsxBuffer) {
+    attachments.push({
+      filename: `通關名單_${new Date().toISOString().slice(0, 10)}.xlsx`,
+      content: Buffer.from(xlsxBuffer),
+      contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+  }
+
+  await transporter.sendMail({
+    from: `飛揚社父親節活動 <${user}>`,
+    to: quizNotifyRecipients().join(","),
+    subject: `【摸彩通關】${entry.name}（${entry.mode}${entry.isFather ? "・爸爸" : ""}）｜符合資格共 ${stats ? stats.total : "?"} 人`,
+    html,
+    attachments,
+  });
+  return true;
 }

@@ -1,5 +1,7 @@
 import { getDb, docIdForEmail } from "./_firestore.js";
 import { publicQuestions, isAllCorrect, LOTTERY_COLLECTION, QUIZ_OPEN_AT, quizIsOpen } from "./_quiz.js";
+import { sendQuizPassMail } from "./_notify.js";
+import { collectLottery, summarizeLottery, buildLotteryXlsx } from "./_report.js";
 
 export default async function handler(req, res) {
   // GET：回傳題目（不含正解）供前端顯示
@@ -14,7 +16,7 @@ export default async function handler(req, res) {
   try {
     // 時間閘門：開放前一律不受理送出
     if (!quizIsOpen()) {
-      return res.status(403).json({ ok: false, notOpen: true, openAt: QUIZ_OPEN_AT, error: "作答尚未開放，將於 2026/08/07 11:30 開放。" });
+      return res.status(403).json({ ok: false, notOpen: true, openAt: QUIZ_OPEN_AT, error: "作答尚未開放，將於 2026/07/24 10:30 開放。" });
     }
 
     const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
@@ -42,7 +44,18 @@ export default async function handler(req, res) {
     const db = getDb();
     await db.collection(LOTTERY_COLLECTION).doc(docIdForEmail(email)).set(entry, { merge: true });
 
-    return res.status(200).json({ ok: true, passed: true });
+    // 統計符合抽獎資格人數／爸爸人數，並自動寄通關名單 Excel 通知同工；寄信失敗不影響通關成功。
+    let mailed = false;
+    try {
+      const rows = await collectLottery(db, LOTTERY_COLLECTION);
+      const stats = summarizeLottery(rows);
+      const xlsxBuffer = await buildLotteryXlsx(db, LOTTERY_COLLECTION);
+      mailed = await sendQuizPassMail(entry, { stats, xlsxBuffer });
+    } catch (mailErr) {
+      console.error("quiz notify mail error:", mailErr);
+    }
+
+    return res.status(200).json({ ok: true, passed: true, mailed });
   } catch (err) {
     console.error("quiz error:", err);
     return res.status(500).json({ ok: false, error: "系統忙線，請稍後再試" });

@@ -40,8 +40,8 @@
   .t-divider span{color:var(--ttl-orange);font-size:18px;line-height:1;text-shadow:0 1px 8px rgba(255,255,255,.9)}
   .t-line2{font-size:clamp(30px,8.4vw,51px);font-weight:900;color:var(--ttl-ink);letter-spacing:2px;
         text-shadow:0 2px 16px rgba(255,255,255,.92),0 1px 2px rgba(255,255,255,.95)}
-  .sub{margin-top:14px;font-size:clamp(13px,3.5vw,19px);color:#3f6349;font-style:italic;letter-spacing:2px;
-        text-shadow:0 1px 12px rgba(255,255,255,.95)}
+  .sub{margin-top:14px;font-size:clamp(13px,3.5vw,19px);color:#fff;font-style:italic;letter-spacing:2px;
+        text-shadow:0 1px 12px rgba(0,0,0,.35)}
   .speaker-pill{display:inline-flex;align-items:center;gap:10px;margin-top:14px;
         background:rgba(247,223,169,.88);backdrop-filter:blur(6px);border-radius:999px;
         padding:7px 20px 7px 7px;box-shadow:0 4px 14px rgba(90,70,54,.14)}
@@ -61,7 +61,7 @@
   .nav button{white-space:nowrap;border:none;background:transparent;color:var(--brown);
        font-size:clamp(13.5px,3.8vw,15px);font-weight:bold;padding:10px 15px;border-radius:999px;cursor:pointer;transition:.15s}
   .nav button:hover{background:var(--green-l);color:var(--green-d)}
-  .hero-foot{color:#7d6f5c;font-size:11.5px;text-shadow:0 1px 8px rgba(255,255,255,.95);line-height:1.7}
+  .hero-foot{color:#fff;font-size:11.5px;text-shadow:0 1px 10px rgba(0,0,0,.4);line-height:1.7}
 
   /* ---------- MODAL ---------- */
   .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-start;justify-content:center;
@@ -119,10 +119,10 @@
   /* quiz */
   .quiz-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:center}
   @media(max-width:600px){.quiz-grid{grid-template-columns:1fr}}
-  .q{border-bottom:1px dashed var(--line);padding:11px 0}
-  .q:last-child{border-bottom:none}
-  .q .qn{font-weight:bold;color:var(--brown);font-size:15px}
-  .q .qo{color:var(--muted);font-size:12.5px;margin-top:4px}
+  .quiz-cd{background:#fff6e9;border:1px solid #f0d9b8;border-radius:14px;padding:18px 14px;text-align:center}
+  .quiz-cd .cdl{color:#a9702f;font-weight:bold;letter-spacing:2px;font-size:12.5px}
+  .quiz-cd .cdt{font-size:clamp(24px,6vw,34px);font-weight:900;color:var(--brown);letter-spacing:1px;margin:8px 0}
+  .quiz-cd .cdx{color:var(--muted);font-size:12px}
   .qr-box{text-align:center}
   .qr-box img{width:min(200px,60vw);margin:0 auto;border:8px solid #fff;border-radius:16px;box-shadow:var(--shadow)}
   .qr-box a{display:inline-block;margin-top:12px;background:var(--green);color:#fff;text-decoration:none;font-weight:bold;padding:11px 22px;border-radius:999px}
@@ -181,7 +181,6 @@
   .w-main .wi{font-size:40px;line-height:1} .w-main .wt{font-size:38px}
   .w-desc{color:var(--brown);font-size:14.5px;font-weight:bold}
   .w-sub{color:var(--muted);font-size:12px;line-height:1.6}
-  .foot-credit{width:100%;text-align:center;color:#a99c86;font-size:12px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -206,7 +205,7 @@
       <button onclick="openModal('quiz')">摸彩通關</button>
       <button onclick="openModal('draw')">喜從天降</button>
     </nav>
-    <div class="hero-foot">CECI 台灣世曦 · 飛揚社基督徒團契　｜　申命記 31:8</div>
+    <div class="hero-foot">CECI 台灣世曦 · 飛揚社</div>
   </div>
 </header>
 
@@ -223,7 +222,6 @@
     <div class="w-desc" id="wDesc">天氣載入中…</div>
     <div class="w-sub" id="wSub"></div>
   </div>
-  <div class="foot-credit">CECI 台灣世曦 · 飛揚社基督徒團契　|　2026 父親節特別活動</div>
 </footer>
 
 <!-- ===== MODALS ===== -->
@@ -236,10 +234,10 @@
     <div class="tl">
       <div class="item"><div class="t">12:00–12:05</div><div class="dot"></div><div><div class="n">報到、入席</div><div class="d">背景音樂迎賓</div></div></div>
       <div class="item"><div class="t">12:05–12:10</div><div class="dot"></div><div><div class="n">開場・破冰</div><div class="d">摸彩通關玩法說明</div></div></div>
-      <div class="item"><div class="t">12:10–12:55</div><div class="dot"></div><div><div class="n">講員分享</div><div class="d">戴豐源博士《沙灘上的雙重腳印》＋萍萍姐時間</div></div></div>
+      <div class="item"><div class="t">12:10–12:55</div><div class="dot"></div><div><div class="n">講員分享</div><div class="d">《沙灘上的雙重腳印》戴豐源博士＋萍萍姐</div></div></div>
       <div class="item"><div class="t">12:55–12:58</div><div class="dot"></div><div><div class="n">摸彩通關</div><div class="d">大螢幕 QR Code 掃碼作答</div></div></div>
-      <div class="item"><div class="t">12:58–13:00</div><div class="dot"></div><div><div class="n">祝福禱告</div><div class="d">視情況 QA</div></div></div>
-      <div class="item"><div class="t">會後</div><div class="dot"></div><div><div class="n">喜從天降・驚喜摸彩</div><div class="d">實體 4 名・線上 1 名</div></div></div>
+      <div class="item"><div class="t">12:58–13:00</div><div class="dot"></div><div><div class="n">祝福禱告</div></div></div>
+      <div class="item"><div class="t">會後</div><div class="dot"></div><div><div class="n">喜從天降・驚喜摸彩</div><div class="d">實體 5 名・線上 1 名</div></div></div>
     </div>
   </div>
 </div>
@@ -294,7 +292,11 @@
     <button class="mx" onclick="closeAll()">✕</button>
     <div class="sec-head"><div class="kick">UNLOCK</div><h2>摸彩通關</h2><p>認真聽分享，答對 2 題就能參加摸彩</p></div>
     <div class="quiz-grid">
-      <div id="qList"><div class="q"><div class="qn">題目載入中…</div></div></div>
+      <div id="qList" class="quiz-cd">
+        <div class="cdl">⏳ 搶答倒數</div>
+        <div class="cdt" id="qCdTime">--:--:--</div>
+        <div class="cdx" id="qCdTarget">載入中…</div>
+      </div>
       <div class="qr-box">
         <img src="./assets/qr-quiz.png" alt="摸彩通關作答 QR Code">
         <div><a href="./quiz" target="_blank" rel="noopener">📱 手機作答連結</a></div>
@@ -399,21 +401,33 @@ function closeAll(){
 function bd(e){ if(e.target.classList.contains('modal')) closeAll(); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAll(); });
 
-/* ---------- Quiz questions ---------- */
+/* ---------- Quiz countdown（不顯示題目，避免洩題） ---------- */
+let quizCdTimer=null;
 function loadQuiz(){
   if(quizLoaded) return; quizLoaded=true;
   fetch('/api/quiz').then(r=>r.json()).then(d=>{
     if(!d.ok) throw 0;
-    document.getElementById('qList').innerHTML=d.questions.map((q,i)=>
-      `<div class="q"><div class="qn">Q${i+1}. ${q.title}</div><div class="qo">${q.options.map((o,j)=>`(${j+1}) ${o}`).join('　')}</div></div>`
-    ).join('');
     const note=document.getElementById('quizOpenNote');
     if(d.isOpen){ note.textContent='✅ 作答進行中，歡迎立即掃碼作答'; }
-    else if(d.openAt){
-      const disp=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(d.openAt));
-      note.textContent='作答將於 '+disp+' 開放';
-    }
-  }).catch(()=>{ quizLoaded=false; document.getElementById('qList').innerHTML='<div class="q"><div class="qn">題目載入失敗，請重開此視窗。</div></div>'; });
+    setupQuizCountdown(d.openAt);
+  }).catch(()=>{ quizLoaded=false; document.getElementById('qCdTarget').textContent='載入失敗，請重開此視窗。'; });
+}
+function setupQuizCountdown(openAtStr){
+  const openDate=new Date(openAtStr||'2026-07-24T10:30:00+08:00');
+  const openAt=openDate.getTime();
+  const disp=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(openDate);
+  const cdTime=document.getElementById('qCdTime'), cdTarget=document.getElementById('qCdTarget');
+  cdTarget.textContent='開放時間：'+disp;
+  clearInterval(quizCdTimer);
+  function tick(){
+    const diff=openAt-Date.now();
+    if(diff<=0){ clearInterval(quizCdTimer); cdTime.textContent='🎉 作答開放中'; return; }
+    const s=Math.floor(diff/1000), d=Math.floor(s/86400), h=Math.floor(s%86400/3600),
+          m=Math.floor(s%3600/60), sec=s%60, p=n=>String(n).padStart(2,'0');
+    cdTime.textContent=(d>0?d+' 天 ':'')+p(h)+':'+p(m)+':'+p(sec);
+  }
+  tick();
+  quizCdTimer=setInterval(tick,1000);
 }
 
 /* ---------- Prizes / draw ---------- */
