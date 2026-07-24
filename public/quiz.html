@@ -83,7 +83,7 @@
       </div>
 
       <div class="countdown" id="countdown">
-        <div class="cdl">⏳ 搶答倒數</div>
+        <div class="cdl" id="cdLabel">⏳ 搶答倒數</div>
         <div class="cdt" id="cdTime">--:--:--</div>
         <div class="cdx" id="cdTarget">載入中…</div>
       </div>
@@ -110,7 +110,7 @@ let QUESTIONS=[], quizOpened=false;
 fetch('/api/quiz').then(r=>r.json()).then(d=>{
   if(!d.ok) throw 0;
   QUESTIONS=d.questions;
-  setupGate(d.openAt);
+  setupGate(d.openAt, d.closeAt);
 }).catch(()=>{document.getElementById('cdTarget').textContent='題目載入失敗，請重新整理。';});
 
 function renderQuestions(){
@@ -127,14 +127,26 @@ function fmtTW(dt){
   return new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',
     day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(dt);
 }
-function setupGate(openAtStr){
-  const openDate=new Date(openAtStr||'2026-07-24T10:30:00+08:00');
-  const openAt=openDate.getTime(), disp=fmtTW(openDate);
+function setupGate(openAtStr, closeAtStr){
+  const openDate=new Date(openAtStr||'2026-08-07T11:50:00+08:00');
+  const closeDate=new Date(closeAtStr||'2026-08-07T13:00:00+08:00');
+  const openAt=openDate.getTime(), closeAt=closeDate.getTime(), disp=fmtTW(openDate);
   const countdown=document.getElementById('countdown'), cdTime=document.getElementById('cdTime'),
         cdTarget=document.getElementById('cdTarget'), qList=document.getElementById('qList'), submit=document.getElementById('submit');
   cdTarget.textContent='開放時間：'+disp;
   function tick(){
-    const diff=openAt-Date.now();
+    const now=Date.now();
+    if(now>=closeAt){
+      clearInterval(gateTimer);
+      countdown.style.display='block';
+      qList.style.display='none';
+      document.getElementById('cdLabel').textContent='🔒 摸彩通關已截止';
+      cdTime.textContent='感謝參與';
+      cdTarget.textContent='開放時間：'+disp+'　｜　已於 '+fmtTW(closeDate)+' 截止';
+      submit.disabled=true; submit.textContent='作答已截止';
+      return;
+    }
+    const diff=openAt-now;
     if(diff<=0){
       clearInterval(gateTimer);
       countdown.style.display='none';

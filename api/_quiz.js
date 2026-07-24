@@ -15,11 +15,20 @@ export const QUESTIONS = [
   },
 ];
 
-// 作答開放時間（台灣時間 2026/07/24 10:30）；可用環境變數 QUIZ_OPEN_AT 覆蓋。
-export const QUIZ_OPEN_AT = process.env.QUIZ_OPEN_AT || "2026-07-24T10:30:00+08:00";
+// 作答開放時間（台灣時間 2026/08/07 11:50）；可用環境變數 QUIZ_OPEN_AT 覆蓋。
+export const QUIZ_OPEN_AT = process.env.QUIZ_OPEN_AT || "2026-08-07T11:50:00+08:00";
+// 作答截止時間（台灣時間 2026/08/07 13:00）；可用環境變數 QUIZ_CLOSE_AT 覆蓋。
+export const QUIZ_CLOSE_AT = process.env.QUIZ_CLOSE_AT || "2026-08-07T13:00:00+08:00";
 export function quizIsOpen() {
   return Date.now() >= new Date(QUIZ_OPEN_AT).getTime();
 }
+export function quizIsClosed() {
+  return Date.now() >= new Date(QUIZ_CLOSE_AT).getTime();
+}
+
+// 截止時自動寄送結果信只觸發一次，用這個集合/文件當原子鎖。
+export const QUIZ_STATE_COLLECTION = process.env.QUIZ_STATE_COLLECTION || "quizState";
+export const QUIZ_CLOSE_NOTIFIED_DOC = "closeNotified";
 
 // 給前端顯示用（不含正解）
 export function publicQuestions() {
