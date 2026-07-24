@@ -9,15 +9,9 @@ function tw(ts) {
   catch { return String(ts); }
 }
 
-// 2026/8/27 07:00 起，姓名含「【測試】」字樣的資料一律排除於寄送名單／統計／摸彩之外。
-// 可用環境變數 TEST_FILTER_AFTER 覆蓋。
-export const TEST_FILTER_AFTER = process.env.TEST_FILTER_AFTER || "2026-08-27T07:00:00+08:00";
-export function testFilterActive() {
-  return Date.now() >= new Date(TEST_FILTER_AFTER).getTime();
-}
+// 姓名含「測試」字樣的資料一律排除於寄送名單／統計／摸彩之外（即時生效，不分日期）。
 export function excludeTestNames(rows) {
-  if (!testFilterActive()) return rows;
-  return rows.filter((r) => !String(r?.name || "").includes("【測試】"));
+  return rows.filter((r) => !String(r?.name || "").includes("測試"));
 }
 
 // 讀取所有報名者
