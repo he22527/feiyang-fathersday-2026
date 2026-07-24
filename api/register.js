@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     // 額滿檢查：只擋「新報名者」；既有報名者更新資料不受限。
     const existing = await docRef.get();
     if (!existing.exists) {
-      const cnt = (await db.collection(COLLECTION).count().get()).data().count;
+      const cnt = (await collectRegistrations(db)).length;
       if (cnt >= CAP) {
         return res.status(200).json({ ok: false, full: true, count: cnt, cap: CAP, error: `報名已額滿（上限 ${CAP} 人），感謝您的支持！` });
       }
