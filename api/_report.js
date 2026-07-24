@@ -9,10 +9,21 @@ function tw(ts) {
   catch { return String(ts); }
 }
 
+// 2026/8/27 07:00 起，姓名含「【測試】」字樣的資料一律排除於寄送名單／統計／摸彩之外。
+// 可用環境變數 TEST_FILTER_AFTER 覆蓋。
+export const TEST_FILTER_AFTER = process.env.TEST_FILTER_AFTER || "2026-08-27T07:00:00+08:00";
+export function testFilterActive() {
+  return Date.now() >= new Date(TEST_FILTER_AFTER).getTime();
+}
+export function excludeTestNames(rows) {
+  if (!testFilterActive()) return rows;
+  return rows.filter((r) => !String(r?.name || "").includes("【測試】"));
+}
+
 // 讀取所有報名者
 export async function collectRegistrations(db) {
   const snap = await db.collection("registrations").get();
-  return snap.docs.map((d) => d.data() || {});
+  return excludeTestNames(snap.docs.map((d) => d.data() || {}));
 }
 
 // 統計：總人數、餐點、部門、是否爸爸、參加方式
@@ -65,7 +76,7 @@ export async function buildRegistrantsXlsx(rows) {
 // 讀取摸彩通關（LOTTERY_COLLECTION）名單
 export async function collectLottery(db, lotteryCollection) {
   const snap = await db.collection(lotteryCollection).get();
-  return snap.docs.map((d) => d.data() || {});
+  return excludeTestNames(snap.docs.map((d) => d.data() || {}));
 }
 
 // 統計：符合抽獎資格人數、其中為爸爸人數、參加方式
@@ -89,7 +100,7 @@ export async function buildLotteryXlsx(db, lotteryCollection) {
   const regByEmail = {};
   regSnap.forEach((d) => { const x = d.data() || {}; if (x.email) regByEmail[String(x.email).toLowerCase()] = x; });
 
-  const rows = lotSnap.docs.map((d) => {
+  const rows = excludeTestNames(lotSnap.docs.map((d) => {
     const p = d.data() || {};
     const r = regByEmail[String(p.email || "").toLowerCase()] || {};
     return {
@@ -103,7 +114,7 @@ export async function buildLotteryXlsx(db, lotteryCollection) {
       passedAt: tw(p.passedAt),
       registeredAt: tw(r.createdAt),
     };
-  });
+  }));
   rows.sort((a, b) => (a.passedAt || "").localeCompare(b.passedAt || ""));
 
   const wb = new ExcelJS.Workbook();

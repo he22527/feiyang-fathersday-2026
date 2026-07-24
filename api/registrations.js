@@ -1,4 +1,5 @@
 import { getDb, COLLECTION } from "./_firestore.js";
+import { excludeTestNames } from "./_report.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -11,14 +12,14 @@ export default async function handler(req, res) {
     const snap = await db.collection(COLLECTION).get();
 
     // 只回傳摸彩需要的欄位，不外洩 email / 一句話
-    const people = snap.docs.map((d) => {
+    const people = excludeTestNames(snap.docs.map((d) => {
       const data = d.data() || {};
       return {
         name: data.name,
         mode: data.mode === "線上" ? "線上" : "實體",
         isFather: data.isFather === true,
       };
-    });
+    }));
 
     people.sort((a, b) => (a.name || "").localeCompare(b.name || "", "zh-Hant"));
     res.setHeader("Cache-Control", "no-store");
