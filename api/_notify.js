@@ -163,13 +163,13 @@ export async function sendQuizPassMail(entry, extra = {}) {
   return true;
 }
 
-// 摸彩通關截止時，寄全部填答者資料檔給同工。extra = { stats, xlsxBuffer, test }
+// 摸彩通關截止時，寄全部填答者資料檔給同工。extra = { stats, xlsxBuffer, csvContent, test }
 export async function sendQuizCloseMail(extra = {}) {
   const mailer = getTransporter();
   if (!mailer) return false;
   const { user, transporter } = mailer;
 
-  const { stats, xlsxBuffer, test = false } = extra;
+  const { stats, xlsxBuffer, csvContent, test = false } = extra;
 
   let statsHtml = "";
   if (stats) {
@@ -191,17 +191,25 @@ export async function sendQuizCloseMail(extra = {}) {
       <h2 style="color:#5b4636;margin:0 0 8px">🔒 父親節活動－摸彩通關已截止</h2>
       <p style="color:#9b8d78;margin:0 0 14px">飛揚社 2026 父親節特別活動</p>
       ${testBanner}
-      <p>摸彩通關填答已截止，附件為所有填答者資料檔（Excel），請留存作為抽獎依據。</p>
+      <p>摸彩通關填答已截止，附件為所有填答者資料檔（Excel、CSV 各一份），請留存作為抽獎依據。</p>
       ${statsHtml}
       <p style="color:#a99c86;font-size:12px;margin-top:18px">本信由摸彩通關系統自動寄出。</p>
     </div>`;
 
+  const dateTag = new Date().toISOString().slice(0, 10);
   const attachments = [];
   if (xlsxBuffer) {
     attachments.push({
-      filename: `通關名單_${new Date().toISOString().slice(0, 10)}.xlsx`,
+      filename: `通關名單_${dateTag}.xlsx`,
       content: Buffer.from(xlsxBuffer),
       contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+  }
+  if (csvContent) {
+    attachments.push({
+      filename: `通關名單_${dateTag}.csv`,
+      content: csvContent,
+      contentType: "text/csv; charset=utf-8",
     });
   }
 

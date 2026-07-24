@@ -90,8 +90,20 @@ export function summarizeLottery(rows) {
   return { total: rows.length, fatherYes, fatherNo, mode };
 }
 
-// 產生「通關成功者」Excel（合併報名時填的部門/餐點/留言）
-export async function buildLotteryXlsx(db, lotteryCollection) {
+const LOTTERY_COLUMNS = [
+  { header: "姓名", key: "name", width: 14 },
+  { header: "部門", key: "dept", width: 18 },
+  { header: "Email", key: "email", width: 28 },
+  { header: "參加方式", key: "mode", width: 10 },
+  { header: "午餐便當", key: "lunch", width: 10 },
+  { header: "是否爸爸", key: "father", width: 10 },
+  { header: "想說的一句話", key: "message", width: 32 },
+  { header: "通關時間", key: "passedAt", width: 22 },
+  { header: "報名時間", key: "registeredAt", width: 22 },
+];
+
+// 讀取通關成功者，合併報名時填的部門/餐點/留言，回傳共用的列資料
+async function collectLotteryMerged(db, lotteryCollection) {
   const [lotSnap, regSnap] = await Promise.all([
     db.collection(lotteryCollection).get(),
     db.collection("registrations").get(),
@@ -116,24 +128,34 @@ export async function buildLotteryXlsx(db, lotteryCollection) {
     };
   }));
   rows.sort((a, b) => (a.passedAt || "").localeCompare(b.passedAt || ""));
+  return rows;
+}
+
+// 產生「通關成功者」Excel（合併報名時填的部門/餐點/留言）
+export async function buildLotteryXlsx(db, lotteryCollection) {
+  const rows = await collectLotteryMerged(db, lotteryCollection);
 
   const wb = new ExcelJS.Workbook();
   wb.creator = "飛揚社父親節報名系統";
   const ws = wb.addWorksheet("通關名單");
-  ws.columns = [
-    { header: "姓名", key: "name", width: 14 },
-    { header: "部門", key: "dept", width: 18 },
-    { header: "Email", key: "email", width: 28 },
-    { header: "參加方式", key: "mode", width: 10 },
-    { header: "午餐便當", key: "lunch", width: 10 },
-    { header: "是否爸爸", key: "father", width: 10 },
-    { header: "想說的一句話", key: "message", width: 32 },
-    { header: "通關時間", key: "passedAt", width: 22 },
-    { header: "報名時間", key: "registeredAt", width: 22 },
-  ];
+  ws.columns = LOTTERY_COLUMNS;
   ws.getRow(1).font = { bold: true };
   ws.getRow(1).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFE6F4EC" } };
   rows.forEach((r) => ws.addRow(r));
   ws.autoFilter = { from: "A1", to: "I1" };
   return await wb.xlsx.writeBuffer();
+}
+
+function csvCell(v) {
+  const s = String(v ?? "");
+  return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+// 產生「通關成功者」CSV（同 buildLotteryXlsx 欄位，UTF-8 BOM 供 Excel 正確顯示中文）
+export async function buildLotteryCsv(db, lotteryCollection) {
+  const rows = await collectLotteryMerged(db, lotteryCollection);
+  const lines = [LOTTERY_COLUMNS.map((c) => csvCell(c.header)).join(",")];
+  rows.forEach((r) => lines.push(LOTTERY_COLUMNS.map((c) => csvCell(r[c.key])).join(",")));
+  const BOM = String.fromCharCode(0xfeff);
+  return BOM + lines.join("\r\n");
 }

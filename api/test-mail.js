@@ -1,13 +1,13 @@
 import { getDb } from "./_firestore.js";
 import { LOTTERY_COLLECTION } from "./_quiz.js";
-import { collectLottery, summarizeLottery, buildLotteryXlsx } from "./_report.js";
+import { collectLottery, summarizeLottery, buildLotteryXlsx, buildLotteryCsv } from "./_report.js";
 import { sendQuizCloseMail } from "./_notify.js";
 
 // 主持人金鑰（可用環境變數 ADMIN_KEY 覆蓋），與 export.js 一致。
 const ADMIN_KEY = process.env.ADMIN_KEY || "feiyang2026";
 
 // 手動觸發一封「摸彩通關截止通知」測試信（標題會加【測試】），
-// 用目前實際資料產生統計與 Excel 附件，方便截止前先確認信件內容。
+// 用目前實際資料產生統計與 Excel/CSV 附件，方便截止前先確認信件內容。
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
@@ -22,7 +22,8 @@ export default async function handler(req, res) {
     const rows = await collectLottery(db, LOTTERY_COLLECTION);
     const stats = summarizeLottery(rows);
     const xlsxBuffer = await buildLotteryXlsx(db, LOTTERY_COLLECTION);
-    const mailed = await sendQuizCloseMail({ stats, xlsxBuffer, test: true });
+    const csvContent = await buildLotteryCsv(db, LOTTERY_COLLECTION);
+    const mailed = await sendQuizCloseMail({ stats, xlsxBuffer, csvContent, test: true });
     return res.status(200).json({ ok: true, mailed, stats });
   } catch (err) {
     console.error("test-mail error:", err);

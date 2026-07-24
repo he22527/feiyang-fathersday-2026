@@ -5,9 +5,9 @@ import {
   QUIZ_STATE_COLLECTION, QUIZ_CLOSE_NOTIFIED_DOC,
 } from "./_quiz.js";
 import { sendQuizPassMail, sendQuizCloseMail } from "./_notify.js";
-import { collectLottery, summarizeLottery, buildLotteryXlsx } from "./_report.js";
+import { collectLottery, summarizeLottery, buildLotteryXlsx, buildLotteryCsv } from "./_report.js";
 
-// 截止時間一到，寄出全部填答者資料檔給同工；用 Firestore 文件 create() 當原子鎖，確保只寄一次。
+// 截止時間一到，寄出全部填答者資料檔（Excel + CSV）給同工；用 Firestore 文件 create() 當原子鎖，確保只寄一次。
 async function maybeSendCloseNotice(db) {
   if (!quizIsClosed()) return;
   const lockRef = db.collection(QUIZ_STATE_COLLECTION).doc(QUIZ_CLOSE_NOTIFIED_DOC);
@@ -20,7 +20,8 @@ async function maybeSendCloseNotice(db) {
     const rows = await collectLottery(db, LOTTERY_COLLECTION);
     const stats = summarizeLottery(rows);
     const xlsxBuffer = await buildLotteryXlsx(db, LOTTERY_COLLECTION);
-    await sendQuizCloseMail({ stats, xlsxBuffer });
+    const csvContent = await buildLotteryCsv(db, LOTTERY_COLLECTION);
+    await sendQuizCloseMail({ stats, xlsxBuffer, csvContent });
   } catch (err) {
     console.error("quiz close notify error:", err);
   }
