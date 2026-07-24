@@ -9,14 +9,14 @@ function tw(ts) {
   catch { return String(ts); }
 }
 
-// 2026/7/25 00:00 前的報名／通關資料視為測試期資料，不列入統計／寄送名單／摸彩之外。
-export const STATS_CUTOFF_AT = process.env.STATS_CUTOFF_AT || "2026-07-25T00:00:00+08:00";
+// 2026/7/24 15:00 前的報名／通關資料視為測試期資料，不列入統計／寄送名單／摸彩之外。
+export const STATS_CUTOFF_AT = process.env.STATS_CUTOFF_AT || "2026-07-24T15:00:00+08:00";
 function afterCutoff(ts) {
   const t = ts ? new Date(ts).getTime() : NaN;
   return Number.isFinite(t) && t >= new Date(STATS_CUTOFF_AT).getTime();
 }
 
-// 姓名含「測試」字樣、或 2026/7/25 前建立的資料，一律排除於寄送名單／統計／摸彩之外。
+// 姓名含「測試」字樣、或 2026/7/24 15:00 前建立的資料，一律排除於寄送名單／統計／摸彩之外。
 // tsField 是該筆資料上代表建立時間的欄位名（報名用 createdAt，通關用 passedAt）。
 export function excludeTestNames(rows, tsField) {
   return rows.filter((r) => !String(r?.name || "").includes("測試") && afterCutoff(r?.[tsField]));

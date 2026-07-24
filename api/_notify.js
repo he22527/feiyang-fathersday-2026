@@ -109,6 +109,47 @@ function esc(s) {
   return String(s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
+// 手動觸發「報名統計重新整理」通知信（例如修正統計時間點後，補寄最新名單給同工）。
+// extra = { stats, xlsxBuffer, note }
+export async function sendResendMail(extra = {}) {
+  const mailer = getTransporter();
+  if (!mailer) return false;
+  const { user, transporter } = mailer;
+
+  const { stats, xlsxBuffer, note = "" } = extra;
+  const mapRows = (obj) => Object.entries(obj).sort((a, b) => b[1] - a[1])
+    .map(([k, v]) => `<span style="display:inline-block;background:#eef4ef;border-radius:8px;padding:2px 9px;margin:2px 4px 2px 0">${esc(k)}：<b>${v}</b></span>`).join("");
+
+  const html = `
+    <div style="font-family:'Microsoft JhengHei',Arial,sans-serif;color:#3a4e60;line-height:1.8">
+      <h2 style="color:#5b4636;margin:0 0 8px">📋 父親節活動－報名統計已重新整理</h2>
+      <p style="color:#9b8d78;margin:0 0 14px">飛揚社 2026 父親節特別活動</p>
+      ${note ? `<div style="background:#eef6f0;border:1px solid #cfe3d6;color:#2f7d57;border-radius:10px;padding:12px 16px;margin:0 0 14px">${esc(note)}</div>` : ""}
+      <h3 style="color:#2f7d57;margin:18px 0 6px">📊 目前報名統計</h3>
+      <table style="border-collapse:collapse;font-size:15px">
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">目前總人數</td><td><b style="font-size:18px;color:#2f7d57">${stats.total}</b></td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">參加方式</td><td>實體 <b>${stats.mode.實體}</b>　線上 <b>${stats.mode.線上}</b></td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78">是否爸爸</td><td>是 <b>${stats.fatherYes}</b>　否 <b>${stats.fatherNo}</b></td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78;vertical-align:top">餐點</td><td>${mapRows(stats.lunch)}</td></tr>
+        <tr><td style="padding:4px 14px 4px 0;color:#9b8d78;vertical-align:top">部門</td><td>${mapRows(stats.dept)}</td></tr>
+      </table>
+      <p style="color:#a99c86;font-size:12px;margin-top:18px">附件為目前所有報名者的 Excel 名單。本信手動觸發寄出。</p>
+    </div>`;
+
+  await transporter.sendMail({
+    from: `飛揚社父親節活動 <${user}>`,
+    to: notifyRecipients().join(","),
+    subject: `【父親節報名】統計已修正｜目前共 ${stats.total} 人`,
+    html,
+    attachments: xlsxBuffer ? [{
+      filename: `報名名單_${new Date().toISOString().slice(0, 10)}.xlsx`,
+      content: Buffer.from(xlsxBuffer),
+      contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    }] : [],
+  });
+  return true;
+}
+
 // 寄摸彩通關成功通知信給同工。extra = { stats, xlsxBuffer }
 export async function sendQuizPassMail(entry, extra = {}) {
   const mailer = getTransporter();
