@@ -11,10 +11,11 @@ export default async function handler(req, res) {
   try {
     const db = getDb();
     const snap = await db.collection(LOTTERY_COLLECTION).get();
-    const people = excludeTestNames(snap.docs.map((d) => {
+    const raw = snap.docs.map((d) => {
       const x = d.data() || {};
-      return { name: x.name, mode: x.mode === "線上" ? "線上" : "實體", isFather: x.isFather === true };
-    }));
+      return { name: x.name, mode: x.mode === "線上" ? "線上" : "實體", isFather: x.isFather === true, passedAt: x.passedAt };
+    });
+    const people = excludeTestNames(raw, "passedAt").map(({ passedAt, ...p }) => p);
     people.sort((a, b) => (a.name || "").localeCompare(b.name || "", "zh-Hant"));
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({ ok: true, count: people.length, people });

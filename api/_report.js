@@ -9,15 +9,23 @@ function tw(ts) {
   catch { return String(ts); }
 }
 
-// 姓名含「測試」字樣的資料一律排除於寄送名單／統計／摸彩之外（即時生效，不分日期）。
-export function excludeTestNames(rows) {
-  return rows.filter((r) => !String(r?.name || "").includes("測試"));
+// 2026/7/25 00:00 前的報名／通關資料視為測試期資料，不列入統計／寄送名單／摸彩之外。
+export const STATS_CUTOFF_AT = process.env.STATS_CUTOFF_AT || "2026-07-25T00:00:00+08:00";
+function afterCutoff(ts) {
+  const t = ts ? new Date(ts).getTime() : NaN;
+  return Number.isFinite(t) && t >= new Date(STATS_CUTOFF_AT).getTime();
+}
+
+// 姓名含「測試」字樣、或 2026/7/25 前建立的資料，一律排除於寄送名單／統計／摸彩之外。
+// tsField 是該筆資料上代表建立時間的欄位名（報名用 createdAt，通關用 passedAt）。
+export function excludeTestNames(rows, tsField) {
+  return rows.filter((r) => !String(r?.name || "").includes("測試") && afterCutoff(r?.[tsField]));
 }
 
 // 讀取所有報名者
 export async function collectRegistrations(db) {
   const snap = await db.collection("registrations").get();
-  return excludeTestNames(snap.docs.map((d) => d.data() || {}));
+  return excludeTestNames(snap.docs.map((d) => d.data() || {}), "createdAt");
 }
 
 // 統計：總人數、餐點、部門、是否爸爸、參加方式
@@ -70,7 +78,7 @@ export async function buildRegistrantsXlsx(rows) {
 // 讀取摸彩通關（LOTTERY_COLLECTION）名單
 export async function collectLottery(db, lotteryCollection) {
   const snap = await db.collection(lotteryCollection).get();
-  return excludeTestNames(snap.docs.map((d) => d.data() || {}));
+  return excludeTestNames(snap.docs.map((d) => d.data() || {}), "passedAt");
 }
 
 // 統計：符合抽獎資格人數、其中為爸爸人數、參加方式
@@ -106,8 +114,8 @@ async function collectLotteryMerged(db, lotteryCollection) {
   const regByEmail = {};
   regSnap.forEach((d) => { const x = d.data() || {}; if (x.email) regByEmail[String(x.email).toLowerCase()] = x; });
 
-  const rows = excludeTestNames(lotSnap.docs.map((d) => {
-    const p = d.data() || {};
+  const lotRows = excludeTestNames(lotSnap.docs.map((d) => d.data() || {}), "passedAt");
+  const rows = lotRows.map((p) => {
     const r = regByEmail[String(p.email || "").toLowerCase()] || {};
     return {
       name: p.name || r.name || "",
@@ -120,7 +128,7 @@ async function collectLotteryMerged(db, lotteryCollection) {
       passedAt: tw(p.passedAt),
       registeredAt: tw(r.createdAt),
     };
-  }));
+  });
   rows.sort((a, b) => (a.passedAt || "").localeCompare(b.passedAt || ""));
   return rows;
 }
